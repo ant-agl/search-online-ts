@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "materialdesignicons-webfont";
+  src: url("materialdesignicons-webfont.eot"); /* IE9 Compat Modes */
+  src: url("materialdesignicons-webfont.eot?#iefix") format("embedded-opentype"),
+    /* IE6-IE8 */ url("materialdesignicons-webfont.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("materialdesignicons-webfont.woff")
+      format("woff"),
+    /* Modern Browsers */ url("materialdesignicons-webfont.ttf")
+      format("truetype"); /* Safari, Android, iOS */
+
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "materialdesignicons-webfont", sans-serif;
+}

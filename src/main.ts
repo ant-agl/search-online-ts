@@ -3,11 +3,12 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
+import VMask from "@ssibrahimbas/v-mask";
 
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/reset.css";
 
 const app = createApp(App);
 
-app.use(store).use(router).use(Antd);
+app.use(store).use(router).use(VMask).use(Antd);
 app.mount("#app");
