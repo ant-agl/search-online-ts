@@ -1,5 +1,5 @@
 <script setup>
-import FirstProfileUserAfterR from "@/components/FirstProfileUserAfterR";
+import FirstProfileUserAfterR from "@/componentsNew/FirstProfileUserAfterR.vue";
 </script>
 <template>
   <section class="section">

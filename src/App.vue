@@ -1,6 +1,4 @@
-<script setup>
-import AppTheme from "./components/App/AppTheme.vue";
-</script>
+<script setup></script>
 <style lang="scss">
 .d {
   font-size: 60px;
@@ -10,6 +8,5 @@ body {
 }
 </style>
 <template>
-  <AppTheme />
   <router-view />
 </template>

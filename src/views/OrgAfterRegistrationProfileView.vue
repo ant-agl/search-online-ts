@@ -1,5 +1,5 @@
 <script setup>
-import OrgFirstProfileAfterR from "@/components/OrgFirstProfileAfterR";
+import OrgFirstProfileAfterR from "@/componentsNew/OrgFirstProfileAfterR";
 </script>
 <template>
   <section class="section">

@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import SignWrapped from "@/components/SignWrapped.vue";
-import FormAuthIn from "@/components/FormAuthIn";
+import FormAuthIn from "@/componentsNew/FormAuthIn.vue";
 </script>
 
 <template>
-  <SignWrapped :imgUrl="require('@/assets/images/auth/sign-in.png')">
-    <template #formaUser>
-      <FormAuthIn />
-    </template>
-  </SignWrapped>
+  <FormAuthIn />
 </template>
