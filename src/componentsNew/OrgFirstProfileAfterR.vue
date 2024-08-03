@@ -2,6 +2,7 @@
 import { reactive, ref } from "vue";
 import type { SelectProps } from "ant-design-vue";
 import CategorySelect from "./App/CategorySelect.vue";
+import { OrgRegistrationFormState } from "./types";
 
 const options = ref<SelectProps["options"]>([
   { value: "ООО", label: "ООО" },
@@ -21,24 +22,8 @@ const onFinish = (values: any) => {
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
-interface FormState {
-  selectOrg: string;
-  selectCategory: string;
-  selectCity: string;
-  nameCompany: string;
-  adresStore: string;
-  descriptionCompany: string;
-  vk: string;
-  tg: string;
-  tel: string;
-  name: string;
-  inn: string;
-  kpp: string;
-  ogrn: string;
-  ogrnIp: string;
-  adressUr: string;
-}
-const formState = reactive<FormState>({
+
+const formState = reactive<OrgRegistrationFormState>({
   selectCity: "",
   vk: "",
   tg: "",

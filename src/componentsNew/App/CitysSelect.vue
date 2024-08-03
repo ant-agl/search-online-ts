@@ -1,17 +1,3 @@
-<template>
-  <a-select
-    v-model:value="value"
-    show-search
-    placeholder="Найдите свой город"
-    style="width: 300px"
-    :options="options"
-    :filter-option="filterOption"
-    @search="handleSearch"
-    @change="handleChange"
-    not-found-content="Впишите минимум 2 буквы для отображения"
-    dropdown-class-name="custom-dropdown"
-  ></a-select>
-</template>
 <script lang="ts" setup>
 import type { SelectProps } from "ant-design-vue";
 import { ref } from "vue";
@@ -43,6 +29,21 @@ const filterOption = async (input: string, option: any) => {
 
 const value = ref<string | undefined>(undefined);
 </script>
+<template>
+  <a-select
+    v-model:value="value"
+    show-search
+    placeholder="Найдите свой город"
+    style="width: 300px"
+    :options="options"
+    :filter-option="filterOption"
+    @search="handleSearch"
+    @change="handleChange"
+    not-found-content="Впишите минимум 2 буквы для отображения"
+    dropdown-class-name="custom-dropdown"
+  ></a-select>
+</template>
+
 <!-- <style>
 .custom-dropdown .ant-select-item-option-content {
   white-space: normal; /* Позволяет тексту переноситься на новую строку */

@@ -22,6 +22,8 @@ interface UserData {
   location: object;
   hideNumber: boolean;
   img: string;
+  vk: string;
+  tg: string;
 }
 
 interface UserOrganization {

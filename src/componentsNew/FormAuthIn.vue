@@ -1,3 +1,50 @@
+<script lang="ts" setup>
+import { reactive } from "vue";
+import { useStore } from "vuex";
+import { FormAuthInFormState } from "./types";
+const store = useStore();
+
+import { message } from "ant-design-vue";
+const success = (detail: string) => {
+  message.success(detail, 2);
+};
+const error = (detail: string) => {
+  message.error(detail, 10);
+};
+
+const formState = reactive<FormAuthInFormState>({
+  email: localStorage.getItem("email") || "",
+  password: localStorage.getItem("password") || "",
+  remember: true,
+});
+const onFinish = async (values: any) => {
+  //   console.log("Success:", values);
+  try {
+    const data = {
+      email: values.email,
+      password: values.password,
+    };
+    const result = await store.dispatch("login", data);
+    if (result.data.status == 200) {
+      localStorage.setItem("token", result.data.token);
+      success(result.data.detail);
+    } else {
+      error(result.data.detail);
+    }
+    if (values.remember) {
+      localStorage.setItem("email", values.email);
+      localStorage.setItem("password", values.password);
+    }
+    // router.push("/CheckAuth");
+  } catch (error) {
+    console.error("Серьезная ошибка:", error);
+  }
+};
+
+const onFinishFailed = (errorInfo: any) => {
+  console.log("Failed:", errorInfo);
+};
+</script>
 <template>
   <div class="auth-form">
     <a-form
@@ -50,7 +97,7 @@
     </a-form>
   </div>
 </template>
-<style setup>
+<style scoped>
 .auth-form {
   height: 100vh;
 
@@ -62,54 +109,3 @@
   width: 300px;
 }
 </style>
-<script lang="ts" setup>
-import { reactive } from "vue";
-import { useStore } from "vuex";
-const store = useStore();
-
-import { message } from "ant-design-vue";
-const success = (detail: string) => {
-  message.success(detail, 2);
-};
-const error = (detail: string) => {
-  message.error(detail, 10);
-};
-interface FormState {
-  email: string;
-  password: string;
-  remember: boolean;
-}
-
-const formState = reactive<FormState>({
-  email: localStorage.getItem("email") || "",
-  password: localStorage.getItem("password") || "",
-  remember: true,
-});
-const onFinish = async (values: any) => {
-  //   console.log("Success:", values);
-  try {
-    const data = {
-      email: values.email,
-      password: values.password,
-    };
-    const result = await store.dispatch("login", data);
-    if (result.data.status == 200) {
-      localStorage.setItem("token", result.data.token);
-      success(result.data.detail);
-    } else {
-      error(result.data.detail);
-    }
-    if (values.remember) {
-      localStorage.setItem("email", values.email);
-      localStorage.setItem("password", values.password);
-    }
-    // router.push("/CheckAuth");
-  } catch (error) {
-    console.error("Серьезная ошибка:", error);
-  }
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-</script>

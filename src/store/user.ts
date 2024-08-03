@@ -7,8 +7,10 @@ const state: State = {
     name: "Джеки Чан",
     email: "Djeki@mail.ru",
     phone: "+7 (938) 526-97-83",
-    location: { id: 615, name: "Москва, Москва" },
+    location: { value: "615", label: "Москва, Москва" },
     hideNumber: false,
+    vk: "https://vk.com",
+    tg: "https://tg.me",
     img: require("@/assets/images/user/nofoto.png"),
   },
   userOrganization: {

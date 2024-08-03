@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { reactive } from "vue";
-import { UserRegistrationFormState } from "./types";
+import { ref, computed } from "vue";
 import CitysSelect from "./App/CitysSelect.vue";
+import { UserOutlined } from "@ant-design/icons-vue";
+import UploadImage from "./App/UploadImage.vue";
+import { useStore } from "vuex";
+const store = useStore();
+const userDataDefault = computed(() => store.getters.userData);
 
+const userData = ref({ ...userDataDefault.value });
 const onFinish = (values: any) => {
   console.log("Success:", values);
 };
@@ -10,19 +15,28 @@ const onFinish = (values: any) => {
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
-
-const formState = reactive<UserRegistrationFormState>({
-  selectCity: "",
-  vk: "",
-  tg: "",
-  tel: "",
-  hideNumber: false,
+const isFormDirty = computed(() => {
+  return !Object.keys({ ...userDataDefault.value, ...userData.value }).every(
+    (key) => userDataDefault.value[key] === userData.value[key]
+  );
 });
 </script>
 <template>
-  <a-typography-title>Расскажи о себе</a-typography-title>
+  <UploadImage v-model:image-url="userData.img">
+    <a-avatar :size="200">
+      <template #icon>
+        <a-image
+          :width="200"
+          :preview="false"
+          :src="userData.img"
+          v-if="userData.img" />
+
+        <UserOutlined v-if="userData.img === null"
+      /></template>
+    </a-avatar>
+  </UploadImage>
   <a-form
-    :model="formState"
+    :model="userData"
     name="basic"
     layout="vertical"
     :label-col="{ span: 8 }"
@@ -36,18 +50,35 @@ const formState = reactive<UserRegistrationFormState>({
       label="Город"
       :rules="[{ required: true, message: 'Выбор города обязателен' }]"
     >
-      <CitysSelect v-model:valueSelect="formState.selectCity" />
+      <CitysSelect v-model:valueSelect="userData.location" />
     </a-form-item>
-
+    <a-form-item name="name" label="ФИО">
+      <a-input
+        v-model:value="userData.name"
+        placeholder="Введите ФИО"
+        allow-clear
+      />
+    </a-form-item>
+    <a-form-item
+      name="email"
+      label="Электронная почта"
+      :rules="[{ type: 'email', message: 'Неверный формат почты' }]"
+    >
+      <a-input
+        v-model:value="userData.email"
+        placeholder="Введите электронную почту"
+        allow-clear
+      />
+    </a-form-item>
     <a-typography-title :level="5">Контакты</a-typography-title>
     <a-form-item
-      name="tel"
+      name="phone"
       label="Номер телефона"
       :rules="[{ min: 19, message: 'Введите полный номер телефона' }]"
     >
       <a-input
         v-mask="'+7 (###) ###-##-##'"
-        v-model:value="formState.tel"
+        v-model:value="userData.phone"
         placeholder="Введите номер телефона"
         allow-clear
       />
@@ -63,7 +94,7 @@ const formState = reactive<UserRegistrationFormState>({
       ]"
     >
       <a-input
-        v-model:value="formState.vk"
+        v-model:value="userData.vk"
         placeholder="Вставьте ссылку Вк"
         allow-clear
       />
@@ -74,22 +105,24 @@ const formState = reactive<UserRegistrationFormState>({
       :rules="[
         {
           type: 'url',
-          message: 'Пример ссылки https://t.m/никнейм',
+          message: 'Пример ссылки https://tg.m/никнейм',
         },
       ]"
     >
       <a-input
-        v-model:value="formState.tg"
+        v-model:value="userData.tg"
         placeholder="Вставьте ссылку Телегам"
         allow-clear
       />
     </a-form-item>
     <a-form-item name="hideNumber">
-      Скрыть номер: <a-switch v-model:checked="formState.hideNumber" />
+      Скрыть номер: <a-switch v-model:checked="userData.hideNumber" />
     </a-form-item>
 
     <a-form-item :wrapper-col="{ offset: 0, span: 10 }">
-      <a-button type="primary" html-type="submit">Далее</a-button>
+      <a-button type="primary" html-type="submit" :disabled="!isFormDirty"
+        >Сохранить</a-button
+      >
     </a-form-item>
   </a-form>
 </template>

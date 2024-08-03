@@ -51,17 +51,17 @@ const routes: Array<RouteRecordRaw> = [
   //   },
   //   component: () => import("@/views/CheckCode.vue"),
   // },
-  // {
-  //   path: "/profile",
-  //   name: "Profile",
-  //   meta: {
-  //     titleKey: "Profile",
-  //     layout: "auth",
-  //     noauth: true,
-  //     props: true,
-  //   },
-  //   component: () => import("@/views/ProfileView.vue"),
-  // },
+  {
+    path: "/profile",
+    name: "Profile",
+    meta: {
+      titleKey: "Profile",
+      layout: "auth",
+      noauth: true,
+      props: true,
+    },
+    component: () => import("@/views/ProfileView.vue"),
+  },
   // {
   //   path: "/test",
   //   name: "Test",
