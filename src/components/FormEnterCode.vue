@@ -1,72 +1,66 @@
-<script setup>
-import { useStore } from "vuex";
-import { ref, computed } from "vue";
-import useVuelidate from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
-import AppInput from "@/components/App/AppInput";
-import AppButton from "@/components/App/AppButton";
-import AppError from "@/components/App/AppError";
-import { useRouter, useRoute } from "vue-router";
-
-const store = useStore();
-const router = useRouter();
+<script lang="ts" setup>
+import { useUserStore } from "@/stores/user";
+import { reactive } from "vue";
+import { useRoute } from "vue-router";
+import { message } from "ant-design-vue";
+const success = (detail: string) => {
+  message.success(detail, 2);
+};
+const error = (detail: string) => {
+  message.error(detail, 5);
+};
+const userStore = useUserStore();
 const route = useRoute();
 const resetPassword = route.params.resetpassword;
-const errorMessage = ref("");
-const codeField = ref("");
-const rules = computed(() => ({
-  codeField: {
-    required: helpers.withMessage("Вставьте код", required),
-  },
-}));
-const v$ = useVuelidate(rules, {
-  codeField,
+const formState = reactive({
+  code: "",
 });
-
-const authUser = async () => {
-  v$.value.$touch();
-  if (!v$.value.$invalid) {
-    try {
-      errorMessage.value = "";
-      if (resetPassword) {
-        await store.dispatch("userRecoverPassword", {
-          code: codeField.value.trim(),
-        });
+const onFinish = async (values: string) => {
+  console.log("Success:", values);
+  try {
+    if (resetPassword) {
+      const result = await userStore.userRecoverPassword({
+        code: values,
+      });
+      if (result.data.status == 200) {
+        success(result.data.detail);
       } else {
-        await store.dispatch("authActivate", { code: codeField.value.trim() });
+        error(result.data.detail);
       }
-
-      router.push("/");
-    } catch (error) {
-      errorMessage.value = error.response.data.detail;
+    } else {
+      const result = await userStore.authActivate({ code: values });
+      if (result.data.status == 200) {
+        success(result.data.detail);
+      } else {
+        error(result.data.detail);
+      }
     }
+  } catch (error) {
+    console.error("Серьезная ошибка:", error);
   }
 };
+
+const onFinishFailed = (errorInfo: object) => {
+  console.log("Failed:", errorInfo);
+};
 </script>
-
 <template>
-  <div class="w-100">
-    <div class="text-center">
-      <template v-if="resetPassword">
-        <h5>Введите код для восстановления пароля</h5>
-      </template>
-      <template v-else>
-        <h5>Введите код для подтверждения авторизации</h5>
-      </template>
-    </div>
-    <form @submit.prevent="authUser">
-      <div class="mb-4">
-        <AppInput
-          type="text"
-          v-model:value="v$.codeField.$model"
-          placeholder="Введите код"
-          :label="resetPassword ? 'Код восстановления' : 'Код активации'"
-          :errors="v$.codeField.$errors"
-        />
-      </div>
+  <a-form
+    :model="formState"
+    name="basic"
+    autocomplete="off"
+    @finish="onFinish"
+    @finishFailed="onFinishFailed"
+  >
+    <h1 v-if="resetPassword">Введи код для восстановления</h1>
+    <h1 v-else>Введи код регистрации</h1>
 
-      <AppButton>Отправить</AppButton>
-    </form>
-    <AppError :value="errorMessage" />
-  </div>
+    <a-form-item label="Код подтверждения" name="code">
+      <a-input v-model:value="formState.code" />
+    </a-form-item>
+
+    <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+      <a-button type="primary" html-type="submit">Потвердить</a-button>
+    </a-form-item>
+  </a-form>
 </template>

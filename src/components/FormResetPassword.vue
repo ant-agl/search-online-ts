@@ -1,75 +1,89 @@
-<script setup>
-import AppButton from "@/components/App/AppButton";
-import AppInput from "@/components/App/AppInput";
-import AppError from "@/components/App/AppError";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { ref, computed } from "vue";
-import useVuelidate from "@vuelidate/core";
-import { required, email, helpers } from "@vuelidate/validators";
-const store = useStore();
-const emailField = ref("");
-const router = useRouter();
-const errorMessage = ref("");
-const rules = computed(() => ({
-  emailField: {
-    email: helpers.withMessage("Вы ввели неверный email", email),
-    required: helpers.withMessage("Вы должны написать email", required),
-  },
-}));
-const v$ = useVuelidate(rules, { emailField });
+<script lang="ts" setup>
+import { reactive } from "vue";
+import { useUserStore } from "@/stores/user";
+import type { Rule } from "ant-design-vue/es/form";
+import { message } from "ant-design-vue";
+const userStore = useUserStore();
 
-const onSubmit = async () => {
-  v$.value.$touch();
-  if (!v$.value.$invalid) {
-    try {
-      errorMessage.value = "";
-      await store.dispatch("userResetPassword", {
-        email: emailField.value.trim(),
-      });
-      router.push("/CheckCode/resetpassword");
-    } catch (error) {
-      errorMessage.value = error.response.data.detail;
+const success = (detail: string) => {
+  message.success(detail, 2);
+};
+const error = (detail: string) => {
+  message.error(detail, 10);
+};
+const rules: Record<string, Rule[]> = {
+  email: [
+    {
+      type: "email",
+      trigger: "change",
+      message: "Пожалуйста, введите корректный адрес электронной почты.",
+    },
+  ],
+};
+const formState = reactive({
+  email: localStorage.getItem("email") || "",
+});
+interface ResetPassword {
+  email: string;
+}
+const onFinish = async (values: ResetPassword) => {
+  console.log("Success:", values);
+  try {
+    const data = {
+      email: values.email,
+    };
+
+    const result = await userStore.userResetPassword(data);
+    if (result.data.status == 200) {
+      success(result.data.detail);
+    } else {
+      error(result.data.detail);
     }
+  } catch (error) {
+    console.error("Серьезная ошибка:", error);
   }
 };
+
+const onFinishFailed = (errorInfo: object) => {
+  console.log("Failed:", errorInfo);
+};
 </script>
-
 <template>
-  <div class="text-center mb-4">
-    <h5>Сброс пароля</h5>
-    <p class="text-white-50">Сбросьте пароль с помощью Jobcy.</p>
-  </div>
-
-  <form @submit.prevent="onSubmit" class="auth-form text-white">
-    <div class="alert alert-warning text-center mb-4" role="alert">
-      Введите свой адрес электронной почты и вы получите инструкцию для
-      восстановления!
-    </div>
-    <div class="mb-4">
-      <AppInput
-        type="email"
-        placeholder="Введите адресс электронной почты"
-        v-model:value="v$.emailField.$model"
+  <div class="auth-form">
+    <a-form
+      :model="formState"
+      name="basic"
+      :label-col="{ span: 20 }"
+      :wrapper-col="{ span: 50 }"
+      :rules="rules"
+      autocomplete="on"
+      @finish="onFinish"
+      @finishFailed="onFinishFailed"
+      layout="vertical"
+    >
+      <a-form-item
         label="Электронная почта"
-        :errors="v$.emailField.$errors"
-      />
-    </div>
-    <div class="mt-3">
-      <AppButton>Отправить</AppButton>
-    </div>
-  </form>
+        name="email"
+        :rules="[
+          {
+            type: 'email',
+            message: 'Введите вашу электронную почту',
+          },
+          {
+            required: true,
 
-  <div class="mt-5 text-center text-white-50">
-    <p>
-      Вспомнили пароль?
-      <router-link
-        to="/SignInView"
-        class="fw-medium text-white text-decoration-underline"
+            message: 'Обязательное поле для входа',
+          },
+        ]"
       >
-        Войти
-      </router-link>
-    </p>
-    <AppError :value="errorMessage" />
+        <a-input v-model:value="formState.email" />
+      </a-form-item>
+
+      <a-form-item :wrapper-col="{ offset: 0, span: 16 }">
+        <a-button type="primary" html-type="submit"
+          >Восстановить пароль</a-button
+        >
+      </a-form-item>
+    </a-form>
   </div>
 </template>

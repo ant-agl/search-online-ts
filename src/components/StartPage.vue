@@ -1,7 +1,6 @@
 <template>
   <div style="font-size: 50px">Стартовая страница</div>
   <ul>
-    <router-link to="/roleselection">Выбор после регисрации</router-link>
     <router-link to="/afterregistrationprofileview"
       >Заполнение Юзера после регистрации</router-link
     >

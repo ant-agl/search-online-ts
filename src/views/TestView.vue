@@ -1,30 +1,18 @@
 <template>
   <div>
-    <SelectChoice
-      v-model="selectedValue"
-      :options="options"
-      name="my-select"
-      label="Выберите опцию"
-      @update:searchValue="updateSearchValue"
-    />
-    <p>Вы выбрали: {{ selectedValue }}</p>
-    <p>Поисковое значение: {{ searchValue }}</p>
+    <p>Имя пользователя: {{ userData.name }}</p>
+    <p>Email: {{ userData.email }}</p>
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import SelectChoice from "@/components/App/SelectChoice.vue";
+<script setup lang="ts">
+import { computed } from "vue";
+import { useUserStore } from "@/stores/user";
 
-const selectedValue = ref(null);
-const searchValue = ref("");
-const options = [
-  { id: "1", name: "Опция 1" },
-  { id: "2", name: "Опция 2" },
-  // Добавьте другие опции по необходимости
-];
+// Создаем экземпляр хранилища
+const userStore = useUserStore();
 
-const updateSearchValue = (value) => {
-  searchValue.value = value;
-};
+// Используем состояние из хранилища
+const userData = computed(() => userStore.userData);
+console.log(userData);
 </script>
