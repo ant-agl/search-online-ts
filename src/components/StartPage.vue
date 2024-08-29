@@ -17,6 +17,7 @@
     <router-link to="/profile">Профиль</router-link>
 
     <router-link to="/test">Тестовая страница для проверок</router-link>
+    <router-link to="/main">Главная страница</router-link>
   </ul>
 </template>
 

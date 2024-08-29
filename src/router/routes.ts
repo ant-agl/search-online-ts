@@ -11,6 +11,16 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/components/StartPage.vue"),
   },
   {
+    path: "/main",
+    name: "HeaderMenu",
+    meta: {
+      titleKey: "HeaderMenu",
+      layout: "auth",
+      noauth: true,
+    },
+    component: () => import("@/views/MainPage.vue"),
+  },
+  {
     path: "/signin",
     name: "SignInView",
     meta: {
