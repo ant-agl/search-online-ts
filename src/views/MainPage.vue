@@ -1,6 +1,9 @@
 <script setup>
 import HeaderMenu from "@/components/HeaderMenu.vue";
+import ConnectUs from "@/pagesComponents/ConnectUs.vue";
+import FooterSearchOnline from "@/pagesComponents/FooterSearchOnline.vue";
 import HowItWorks from "@/pagesComponents/HowItWorks.vue";
+import PopularCards from "@/pagesComponents/PopularCards.vue";
 import WhyWe from "@/pagesComponents/WhyWe.vue";
 </script>
 <template>
@@ -15,6 +18,9 @@ import WhyWe from "@/pagesComponents/WhyWe.vue";
       <HeaderMenu />
       <HowItWorks />
       <WhyWe />
+      <PopularCards />
+      <ConnectUs />
+      <FooterSearchOnline />
     </div>
   </a-config-provider>
 </template>
@@ -27,5 +33,9 @@ import WhyWe from "@/pagesComponents/WhyWe.vue";
 .title {
   font-size: 28px;
   font-family: "Russo One", sans-serif;
+}
+a {
+  text-decoration: none;
+  color: black;
 }
 </style>

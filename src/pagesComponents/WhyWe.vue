@@ -23,7 +23,7 @@
 
 <style scoped>
 .whyme {
-  background: #f9f3ff;
+  background: var(--color-back);
   padding: 80px 0;
 }
 .title {

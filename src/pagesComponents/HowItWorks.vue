@@ -68,7 +68,7 @@ h2 {
 }
 .number {
   font-size: 32px;
-  color: #453273;
+  color: var(--color-primary);
   font-weight: 600px;
 }
 .description {

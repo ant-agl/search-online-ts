@@ -81,7 +81,7 @@ const routes: Array<RouteRecordRaw> = [
       noauth: true,
       props: true,
     },
-    component: () => import("@/views/TestView.vue"),
+    component: () => import("@/views/TestPage.vue"),
   },
 
   {
