@@ -1,5 +1,5 @@
 <template>
-  <div class="populars">
+  <div class="populars padding-section">
     <h2 class="title">Популярные услуги</h2>
     <div class="cards">
       <div class="card">
@@ -77,7 +77,7 @@
     </div>
     <a-button class="button" type="primary" ghost>Больше услуг</a-button>
   </div>
-  <div class="populars">
+  <div class="populars padding-section">
     <h2 class="title">Популярные товары</h2>
     <div class="cards">
       <div class="card">
@@ -158,20 +158,21 @@
 </template>
 <style scoped>
 .populars {
-  padding: 80px 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
   align-items: center;
 }
 .cards {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: center;
   gap: 30px;
+  margin: 0 30px;
 }
 
 .card {
-  width: 247px;
+  max-width: 247px;
   border: 1px solid #cfcfcf;
   border-radius: 5px;
   overflow: hidden;
@@ -215,7 +216,7 @@
 }
 
 .card-arrow:hover {
-  width: 197px;
+  width: 80%;
   padding-left: 15px;
 }
 
@@ -254,5 +255,63 @@
 }
 .button {
   width: 168px;
+}
+@media (max-width: 1020px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .populars {
+    gap: 20px;
+  }
+  .cards {
+    gap: 8px;
+  }
+  .card {
+    max-width: 136px;
+    line-height: 13px;
+  }
+  .top-img {
+    max-height: 89px;
+  }
+  .card-bottom {
+    padding: 5px 10px 35px 10px;
+  }
+  .card-title {
+    font-size: 10px;
+  }
+  .card-price {
+    font-size: 9px;
+  }
+  .card-city {
+    font-size: 9px;
+  }
+  .card-time {
+    font-size: 8px;
+  }
+  .card-arrow {
+    width: 26px;
+    height: 26px;
+    bottom: 5px;
+    right: 10px;
+  }
+  .arrow {
+    right: 5px;
+  }
+  .text-arrow {
+    font-size: 11px;
+  }
+  .card-arrow:hover {
+    width: 84%;
+    padding-left: 8px;
+  }
+  .button {
+    width: 280px;
+  }
+  .cards {
+    margin: 0;
+  }
 }
 </style>

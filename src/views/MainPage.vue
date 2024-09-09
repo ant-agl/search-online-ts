@@ -4,6 +4,8 @@ import ConnectUs from "@/pagesComponents/ConnectUs.vue";
 import FooterSearchOnline from "@/pagesComponents/FooterSearchOnline.vue";
 import HowItWorks from "@/pagesComponents/HowItWorks.vue";
 import PopularCards from "@/pagesComponents/PopularCards.vue";
+import SwiperCategory from "@/pagesComponents/SwiperCategory.vue";
+import SwiperClients from "@/pagesComponents/SwiperClients.vue";
 import WhyWe from "@/pagesComponents/WhyWe.vue";
 </script>
 <template>
@@ -15,10 +17,13 @@ import WhyWe from "@/pagesComponents/WhyWe.vue";
     }"
   >
     <div class="main-page">
-      <HeaderMenu />
+      <!-- <HeaderMenu /> -->
+
+      <SwiperCategory />
       <HowItWorks />
       <WhyWe />
       <PopularCards />
+      <SwiperClients />
       <ConnectUs />
       <FooterSearchOnline />
     </div>
@@ -37,5 +42,16 @@ import WhyWe from "@/pagesComponents/WhyWe.vue";
 a {
   text-decoration: none;
   color: black;
+}
+.padding-section {
+  padding: 80px 0;
+}
+@media (max-width: 500px) {
+  .title {
+    font-size: 16px;
+  }
+  .padding-section {
+    padding: 40px 0;
+  }
 }
 </style>

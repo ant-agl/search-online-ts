@@ -1,5 +1,5 @@
 <template>
-  <div class="connect-us">
+  <div class="connect-us padding-section">
     <div class="connect-us-left">
       <div class="title">Присоединяйтесь к нам!</div>
       <router-link to="#">
@@ -17,7 +17,6 @@
 
 <style scoped>
 .connect-us {
-  padding: 80px 0;
   display: flex;
   justify-content: space-evenly;
 }
@@ -35,11 +34,31 @@
 }
 .connect-us_btn {
   width: 241px;
+  font-size: 16px;
+  padding: 0;
 }
 .connect-us_img {
   max-width: 554px;
   max-height: 354px;
   border-radius: 8px;
   opacity: 0.9;
+}
+@media (max-width: 1020px) {
+  .connect-us {
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
+  }
+}
+@media (max-width: 1020px) {
+  .connect-us_img {
+    width: 90%;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .connect-us-left {
+    gap: 10px;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="whyme">
+  <div class="whyme padding-section">
     <h2 class="title">Почему выбирают нас?</h2>
     <div class="cards">
       <div class="card">
@@ -24,7 +24,6 @@
 <style scoped>
 .whyme {
   background: var(--color-back);
-  padding: 80px 0;
 }
 .title {
   text-align: center;
@@ -39,7 +38,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   padding: 42px 25px;
   background-color: white;
   width: 230px;
@@ -53,5 +52,29 @@
 }
 img {
   width: 40px;
+  margin-bottom: 6px;
+}
+.card-description {
+  line-height: 22px;
+}
+@media (max-width: 800px) {
+  .cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+}
+@media (max-width: 500px) {
+  .card {
+    width: 217px;
+    height: 177px;
+    padding: 23px 22px;
+  }
+  .card-title {
+    font-size: 16px;
+  }
+  .card-description {
+    font-size: 12px;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="how-works">
-    <img src="@/img/main/howitworks.png" alt="" />
+  <div class="how-works padding-section">
+    <img class="left-img" src="@/img/main/howitworks.png" alt="" />
     <div class="how-works-right">
       <h2 class="title">Как это работает</h2>
       <div class="offers">
@@ -33,12 +33,10 @@
 .how-works {
   display: flex;
   align-items: center;
-  padding: 80px 0;
-  justify-content: center;
-  gap: 12%;
+
+  justify-content: space-evenly;
 }
 h2 {
-  font-size: 28px;
   font-weight: 600;
   text-align: center;
 }
@@ -73,5 +71,36 @@ h2 {
 }
 .description {
   font-size: 14px;
+}
+@media (max-width: 1000px) {
+  .how-works {
+    flex-direction: column-reverse;
+    gap: 32px;
+  }
+}
+@media (max-width: 500px) {
+  .left-img {
+    width: 280px;
+    height: 244px;
+  }
+  .offers {
+    column-gap: 40px;
+    row-gap: 19px;
+  }
+  .number {
+    font-size: 16px;
+  }
+  .description {
+    font-size: 11px;
+  }
+  .offer_img {
+    max-width: 57px;
+  }
+  .offer {
+    width: 110px;
+    height: 107px;
+    padding: 10px;
+    gap: 5px;
+  }
 }
 </style>
