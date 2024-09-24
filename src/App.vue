@@ -17,6 +17,9 @@
 body {
   background-color: white !important;
 }
+a:hover {
+  color: var(--color-primary);
+}
 </style>
 <template>
   <router-view />

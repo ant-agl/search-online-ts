@@ -23,7 +23,7 @@
         spaceBetween: 40,
       },
       1024: {
-        slidesPerView: 9,
+        slidesPerView: 10,
         spaceBetween: 0,
       },
     }"
@@ -34,78 +34,68 @@
     class="mySwiper"
   >
     <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
+      <div class="category">Категория</div>
     </SwiperSlide>
     <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    v
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <img src="@/img/main/swiper_1.png" alt="Slide 1" />
-      <div>Категория</div>
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div> </SwiperSlide
+    ><SwiperSlide class="swiper-slide">
+      <div class="category">Категория</div>
     </SwiperSlide>
   </Swiper>
 </template>
@@ -117,10 +107,10 @@ import { Autoplay } from "swiper/modules";
 
 <style scoped lang="scss">
 .mySwiper {
-  background-color: var(--color-back);
-  height: 209px;
+  height: 92px;
   display: flex;
   align-items: center;
+  background-color: var(--color-back);
 }
 
 .swiper-slide {
@@ -135,6 +125,12 @@ import { Autoplay } from "swiper/modules";
     border-radius: 50%;
     height: 97px;
   }
+}
+.category {
+  border-radius: 30px;
+  box-shadow: 1px 1px 8px 0px rgb(0, 0, 0, 0.15);
+  padding: 10px 15px;
+  background: white;
 }
 @media (max-width: 500px) {
   .swiper-slide img {
