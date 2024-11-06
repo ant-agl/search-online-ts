@@ -23,7 +23,6 @@
 
 <style scoped>
 .whyme {
-  background: var(--color-back);
 }
 .title {
   text-align: center;

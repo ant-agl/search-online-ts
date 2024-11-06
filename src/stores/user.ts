@@ -24,7 +24,7 @@ const initialState: State = {
     hideNumber: false,
     vk: "https://vk.com",
     tg: "https://tg.me",
-    img: require("@/img/nofoto.png"),
+    img: "",
   },
   userOrganization: {
     name: "Night City",

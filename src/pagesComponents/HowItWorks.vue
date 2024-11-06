@@ -33,8 +33,8 @@
 .how-works {
   display: flex;
   align-items: center;
-
   justify-content: space-evenly;
+  position: relative;
 }
 h2 {
   font-weight: 600;

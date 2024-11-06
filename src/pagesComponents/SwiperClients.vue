@@ -96,7 +96,6 @@ import { FreeMode, Navigation } from "swiper/modules";
 
 <style scoped lang="scss">
 .clients {
-  background-color: var(--color-back);
   position: relative;
   display: flex;
   flex-direction: column;

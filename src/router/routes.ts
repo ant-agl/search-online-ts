@@ -106,6 +106,17 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import("@/views/OrgAfterRegistrationProfileView.vue"),
   },
+  {
+    path: "/menuprofile",
+    name: "MenuProfile",
+    meta: {
+      titleKey: "MenuProfile",
+      layout: "auth",
+      noauth: true,
+      props: true,
+    },
+    component: () => import("@/components/MenuProfile.vue"),
+  },
 ];
 
 export default routes;

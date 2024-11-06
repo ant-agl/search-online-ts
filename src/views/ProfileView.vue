@@ -1,11 +1,11 @@
 <script setup>
-import ProfilePage from "@/components/ProfilePage.vue";
+import ProfileMenu from "@/components/ProfileMenu.vue";
 </script>
 
 <template>
   <section class="section">
     <div class="container d-flex justify-content-center">
-      <ProfilePage />
+      <ProfileMenu />
     </div>
   </section>
 </template>

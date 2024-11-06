@@ -23,7 +23,7 @@
         spaceBetween: 40,
       },
       1024: {
-        slidesPerView: 10,
+        slidesPerView: 7,
         spaceBetween: 0,
       },
     }"
@@ -110,7 +110,7 @@ import { Autoplay } from "swiper/modules";
   height: 92px;
   display: flex;
   align-items: center;
-  background-color: var(--color-back);
+  background-color: white;
 }
 
 .swiper-slide {

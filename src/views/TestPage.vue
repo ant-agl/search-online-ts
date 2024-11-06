@@ -1,35 +1,46 @@
 <template>
-  <a-menu
-    v-model:openKeys="openKeys"
-    v-model:selectedKeys="selectedKeys"
-    style="width: 256px"
-    mode="vertical"
-    :items="items"
-    @click="handleClick"
-  />
+  <div class="parallax-section">
+    <div class="content">
+      <h1>Параллакс с кругом</h1>
+      <p>Прокрутите вниз, чтобы увидеть, как круг остаётся на месте.</p>
+    </div>
+  </div>
+  <div class="normal-section">
+    <h2>Обычная секция</h2>
+    <p>Содержимое без параллакса.</p>
+  </div>
 </template>
-<script lang="ts" setup>
-import { h, ref } from "vue";
-import { MailOutlined, CalendarOutlined } from "@ant-design/icons-vue";
-import type { MenuProps } from "ant-design-vue";
+<style>
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
-const selectedKeys = ref([]);
-const openKeys = ref([]);
-const items = ref([
-  {
-    key: "1",
-    icon: () => h(MailOutlined),
-    label: "Navigation One",
-    title: "Navigation One",
-  },
-  {
-    key: "2",
-    icon: () => h(CalendarOutlined),
-    label: "Navigation Two",
-    title: "Navigation Two",
-  },
-]);
-const handleClick: MenuProps["onClick"] = (menuInfo) => {
-  console.log("click ", menuInfo);
-};
-</script>
+.parallax-section {
+  height: 100vh; /* Полная высота окна браузера */
+  background: url("https://via.placeholder.com/200") no-repeat center center;
+  background-size: 200px 200px;
+  background-attachment: fixed; /* Фон остаётся на месте при прокрутке */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.normal-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f4f4;
+}
+</style>

@@ -82,6 +82,7 @@ const items = ref<MenuProps["items"]>([
   box-shadow: 0px 0px 17px -10px;
   padding-left: 10px;
   padding-right: 20px;
+  background-color: white;
 }
 .logo {
   max-width: 178px;
