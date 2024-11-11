@@ -2,8 +2,6 @@
   <div class="clients padding-section">
     <h2 class="title">Что говорят наши клиенты</h2>
     <Swiper
-      :slidesPerView="1"
-      :spaceBetween="0"
       :pagination="{
         clickable: true,
       }"
@@ -11,13 +9,13 @@
         watchState: true,
       }"
       :breakpoints="{
-        320: {
+        500: {
           slidesPerView: 1,
           spaceBetween: 0,
         },
         1023: {
           slidesPerView: 2,
-          spaceBetween: 0,
+          spaceBetween: 5,
         },
       }"
       :freeMode="false"
@@ -41,7 +39,8 @@
             aliquip ex ea commodo consequat.
           </div>
           <div class="card-stars">
-            <a-rate class="stars" value="4" />
+            <a-rate class="stars" :value="4" />
+            <!-- Исправлено на :value для передачи числа -->
           </div>
         </div>
       </SwiperSlide>
@@ -61,27 +60,8 @@
             aliquip ex ea commodo consequat.
           </div>
           <div class="card-stars">
-            <a-rate class="stars" value="4" />
-          </div>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide class="swiper-slide_left">
-        <div class="card">
-          <div class="card-top">
-            <img class="avatar" src="@/img/main/avatar.png" alt="" />
-            <div class="contacts">
-              <div class="fio">Иван Иванов</div>
-              <div class="city">Москва</div>
-            </div>
-          </div>
-          <div class="card-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </div>
-          <div class="card-stars">
-            <a-rate class="stars" value="4" />
+            <a-rate class="stars" :value="5" />
+            <!-- Исправлено на :value для передачи числа -->
           </div>
         </div>
       </SwiperSlide>
@@ -100,14 +80,9 @@ import { FreeMode, Navigation } from "swiper/modules";
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 26px;
 }
-.title {
-  font-size: 28px;
-  text-align: center;
-}
+
 .mySwiper {
-  height: 192px;
   max-width: 930px;
   display: flex;
   align-items: center;
@@ -124,7 +99,6 @@ import { FreeMode, Navigation } from "swiper/modules";
   padding: 18px 25px;
   max-width: 433px;
   border-radius: 16px;
-  overflow: hidden;
 }
 .card-top {
   display: flex;
@@ -147,6 +121,7 @@ import { FreeMode, Navigation } from "swiper/modules";
 .card-text {
   font-size: 12px;
   margin: 5px 0;
+  line-height: 22px;
 }
 
 :deep(.swiper-button-prev),
@@ -215,8 +190,7 @@ import { FreeMode, Navigation } from "swiper/modules";
 
 @media (max-width: 600px) {
   .mySwiper {
-    max-width: 197px;
-    height: 224px;
+    max-width: 217px;
   }
 
   .fio {

@@ -6,6 +6,7 @@ import {
   UserOrganization,
   UserRegistration,
   CodeCheck,
+  RepairEmail,
 } from "@/types/user";
 
 // Типизация состояния
@@ -43,8 +44,8 @@ export const useUserStore = defineStore("user", {
   state: (): State => initialState,
 
   getters: {
-    // userData: (state) => state.userData,
-    userOrganization: (state) => state.userOrganization,
+    // Переименованный getter
+    getUserOrganization: (state) => state.userOrganization,
   },
 
   actions: {
@@ -59,7 +60,7 @@ export const useUserStore = defineStore("user", {
     async registrationUserData(data: UserRegistration) {
       console.log(data);
       try {
-        const response = await api.post("/registration", data);
+        const response = await api.post("/api/v1/users/register", data);
         console.log("registration", response);
         return response;
       } catch (error) {
@@ -80,13 +81,10 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    async userResetPassword(data: object) {
+    async userResetPassword(data: RepairEmail) {
       console.log(data);
       try {
-        const response = await api.post(
-          "/registration/recover_password_query",
-          data
-        );
+        const response = await api.post("/auth/password/repair", data);
         console.log("recover_password", response);
         return response;
       } catch (error) {

@@ -20,7 +20,8 @@ export interface CodeCheck {
 }
 export interface UserRegistration {
   email: string;
-  name: string;
+  first_name: string;
+  last_name: string;
   password: string;
 }
 export interface UserRegistrationFormState {
@@ -65,4 +66,7 @@ export interface RegistrationUser {
   checkPass: string;
   email: string;
   fio: string;
+}
+export interface RepairEmail {
+  email: string;
 }

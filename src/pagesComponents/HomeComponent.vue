@@ -27,27 +27,12 @@ const onSearch = (searchValue: string) => {
           @search="onSearch"
           class="search"
         />
-        <!-- <div class="buttons">
-          <a-button class="btn_1" type="primary">Оставить запрос</a-button>
-          <a-button class="btn_2">Добавить услугу</a-button>
-        </div> -->
       </div>
     </div>
     <img class="home-city" src="@/img/main/home_city.png" alt="" />
   </div>
 </template>
 <style lang="scss" scoped>
-// .buttons {
-//   display: flex;
-//   gap: 20px;
-//   margin-top: 20px;
-// }
-// .btn_1,
-// .btn_2 {
-//   border-radius: 20px;
-//   width: 220px;
-//   height: 44px;
-// }
 .home {
   display: flex;
   flex-direction: column;
@@ -55,9 +40,11 @@ const onSearch = (searchValue: string) => {
   position: relative;
   height: 610px;
   overflow: hidden;
+  background: white;
 }
 .home-city {
   max-height: 353px;
+  width: 100%;
   position: absolute;
   bottom: 0;
 }
@@ -146,6 +133,82 @@ const onSearch = (searchValue: string) => {
   :deep(.ant-input) {
     padding-right: 55px !important;
     padding-left: 20px !important;
+  }
+}
+@media (max-width: 700px) {
+  .title-home {
+    font-size: 28px;
+  }
+  .wrapper-middle {
+    max-width: 350px;
+  }
+  .home {
+    height: 404px;
+  }
+  .home-middle {
+    height: 230px;
+  }
+  .search {
+    :deep(.ant-btn) {
+      position: relative;
+      right: 20px;
+    }
+  }
+  .circles {
+  }
+  .circle-large {
+    width: 710px;
+    height: 281px;
+  }
+  .circle-small {
+    width: 376px;
+    height: 196px;
+  }
+}
+@media (max-width: 450px) {
+  .logo-text {
+    font-size: 10px;
+  }
+  .title-home {
+    font-size: 20px;
+  }
+  .wrapper-middle {
+    max-width: 278px;
+    gap: 10px;
+  }
+  .search {
+    :deep(.ant-input) {
+      height: 34px;
+      padding-right: 35px !important;
+    }
+    :deep(.ant-btn) {
+      width: 26px !important;
+      height: 26px !important;
+      padding: 2px 0px 0px 6px !important;
+      right: 10px;
+      top: 1px;
+      svg {
+        width: 17px !important;
+        height: 15px !important;
+      }
+    }
+  }
+  .circles {
+    top: -30px;
+    filter: blur(50px);
+  }
+
+  .circle-large {
+    width: 350px;
+    height: 198px;
+  }
+  .circle-small {
+    width: 227px;
+    height: 140px;
+  }
+  .home-city {
+    width: 162%;
+    transform: translateX(-90px);
   }
 }
 </style>

@@ -11,7 +11,7 @@ import SwiperCategory from "@/pagesComponents/SwiperCategory.vue";
 import SwiperClients from "@/pagesComponents/SwiperClients.vue";
 
 let lastScrollY = window.scrollY;
-const parallaxFactor = 0.5;
+const parallaxFactor = 0.1;
 const bgEllipses = ref();
 
 function updateParallax() {
@@ -32,16 +32,17 @@ requestAnimationFrame(updateParallax);
   <div class="main-page">
     <HeaderMenu />
     <HomeComponent />
-
+    <SwiperCategory />
     <div class="main-section">
-      <SwiperCategory />
       <StagesCard />
-
       <PopularCards />
       <SwiperClients />
       <ConnectUs />
 
       <div class="bg-ellipses" ref="bgEllipses">
+        <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
+        <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
+        <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
         <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
         <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
         <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
@@ -59,31 +60,29 @@ requestAnimationFrame(updateParallax);
 
 <style>
 .main-page {
-  max-width: 1440px;
-  margin: auto;
   background-color: #fcf8ff;
 }
-.title {
-  font-size: 28px;
-  font-family: "Russo One", sans-serif;
-}
+
 a {
   text-decoration: none;
   color: black;
 }
 .padding-section {
-  padding: 80px 0;
+  padding: 80px 10px;
 }
 @media (max-width: 500px) {
   .title {
     font-size: 16px;
+    margin-bottom: 24px;
   }
   .padding-section {
-    padding: 40px 0;
+    padding: 24px 10px;
   }
 }
 
 .main-section {
+  max-width: 1440px;
+  margin: auto;
   position: relative;
   overflow: hidden;
 }
@@ -98,42 +97,59 @@ a {
 }
 .bg-ellipses__item:nth-child(1) {
   width: 170px;
-  left: -60px;
-  top: 200px;
+  left: 125px;
+  top: 186px;
 }
 .bg-ellipses__item:nth-child(2) {
   width: 100px;
-  right: -60px;
-  top: 180px;
+  right: 184px;
+  top: 57px;
 }
 .bg-ellipses__item:nth-child(3) {
-  width: 300px;
-  right: -60px;
-  top: 600px;
+  width: 272px;
+  right: 12px;
+  top: 615px;
 }
 .bg-ellipses__item:nth-child(4) {
-  width: 150px;
-  left: -40px;
-  top: 700px;
+  width: 86px;
+
+  right: 183px;
+  top: 792px;
 }
 .bg-ellipses__item:nth-child(5) {
-  width: 200px;
-  left: 10px;
-  top: 1250px;
+  width: 150px;
+  left: 421px;
+  top: 667px;
 }
 .bg-ellipses__item:nth-child(6) {
-  width: 140px;
-  right: 60px;
-  top: 1300px;
+  width: 226px;
+
+  left: 66px;
+  top: 1173px;
 }
 .bg-ellipses__item:nth-child(7) {
-  width: 110px;
-  left: 70px;
-  top: 1800px;
+  width: 103px;
+  right: 62px;
+  top: 1324px;
 }
 .bg-ellipses__item:nth-child(8) {
+  width: 103px;
+  left: 204px;
+  top: 1558px;
+}
+.bg-ellipses__item:nth-child(9) {
   width: 150px;
-  right: 48px;
-  top: 1900px;
+  right: 118px;
+  top: 1856px;
+}
+.bg-ellipses__item:nth-child(10) {
+  width: 187px;
+  left: 40px;
+  top: 2083px;
+}
+.bg-ellipses__item:nth-child(11) {
+  width: 104px;
+  left: 133px;
+  top: 2176px;
 }
 </style>

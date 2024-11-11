@@ -1,7 +1,7 @@
 <template>
   <div class="connect-us padding-section">
-    <div class="connect-us-left">
-      <div class="title">Присоединяйтесь к нам!</div>
+    <div class="connect-us-middle">
+      <div class="title-connect">Присоединяйтесь к нам!</div>
       <router-link to="#">
         <a-button class="connect-us_btn" type="primary"> Войти </a-button>
       </router-link>
@@ -11,23 +11,24 @@
         </a-button>
       </router-link>
     </div>
-    <img class="connect-us_img" src="@/img/main/connect_us.png" alt="" />
   </div>
 </template>
 
 <style scoped>
-.connect-us {
-  display: flex;
-  justify-content: space-evenly;
-}
-.connect-us-left {
+.connect-us-middle {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
   justify-content: center;
+  background-image: url("@/img/main/connect_us.png");
+  background-repeat: no-repeat;
+  max-width: 1078px;
+  height: 312px;
+  margin: auto;
+  border-radius: 20px;
 }
-.title {
+.title-connect {
   font-size: 32px;
   color: var(--color-primary);
   margin-bottom: 10px;
@@ -43,22 +44,18 @@
   border-radius: 8px;
   opacity: 0.9;
 }
-@media (max-width: 1020px) {
-  .connect-us {
-    flex-direction: column;
-    align-items: center;
-    gap: 35px;
+
+@media (max-width: 500px) {
+  .title-connect {
+    font-size: 16px;
   }
-}
-@media (max-width: 1020px) {
-  .connect-us_img {
-    width: 90%;
+  .connect-us-middle {
+    height: 218px;
+    gap: 9px;
   }
-  .title {
-    font-size: 20px;
-  }
-  .connect-us-left {
-    gap: 10px;
+  .connect-us_btn {
+    width: 198px;
+    font-size: 12px;
   }
 }
 </style>

@@ -1,89 +1,108 @@
-<script lang="ts" setup>
-import { reactive } from "vue";
-import { useUserStore } from "@/stores/user";
-import type { Rule } from "ant-design-vue/es/form";
-import { message } from "ant-design-vue";
-const userStore = useUserStore();
+<template>
+  <WrapperRegSign>
+    <div class="code">
+      <div class="title">Восстановление пароля</div>
+      <div class="subtitle">Введи E-mail для восставновлления пароля</div>
+      <a-form
+        ref="formRef"
+        layout="inline"
+        :model="formState"
+        :rules="rules"
+        @finish="handleFinish"
+        @finishFailed="handleFinishFailed"
+        class="form"
+      >
+        <a-form-item name="email">
+          <a-input
+            v-model:value="formState.email"
+            placeholder="E-mail"
+            allow-clear
+          >
+            <template #prefix><MailOutlined /></template>
+          </a-input>
+        </a-form-item>
 
-const success = (detail: string) => {
-  message.success(detail, 2);
-};
-const error = (detail: string) => {
-  message.error(detail, 10);
-};
-const rules: Record<string, Rule[]> = {
-  email: [
-    {
-      type: "email",
-      trigger: "change",
-      message: "Пожалуйста, введите корректный адрес электронной почты.",
-    },
-  ],
-};
-const formState = reactive({
-  email: localStorage.getItem("email") || "",
-});
-interface ResetPassword {
+        <a-button type="primary" html-type="submit" class="form-button">
+          Отправить
+        </a-button>
+      </a-form>
+    </div>
+  </WrapperRegSign>
+</template>
+
+<script lang="ts" setup>
+import { reactive, ref } from "vue";
+import { message } from "ant-design-vue";
+import WrapperRegSign from "@/components/wrapper/WrapperRegSign.vue";
+import { useUserStore } from "@/stores/user";
+import { MailOutlined } from "@ant-design/icons-vue";
+import type { FormInstance, RuleObject } from "ant-design-vue/es/form";
+
+interface FormState {
   email: string;
 }
-const onFinish = async (values: ResetPassword) => {
-  console.log("Success:", values);
-  try {
-    const data = {
-      email: values.email,
-    };
 
-    const result = await userStore.userResetPassword(data);
-    if (result.data.status == 200) {
-      success(result.data.detail);
+const userStore = useUserStore();
+
+const formRef = ref<FormInstance>();
+const formState = reactive<FormState>({
+  email: "",
+});
+
+const rules: Record<string, RuleObject[]> = {
+  email: [
+    { required: true, message: "Введите E-mail", trigger: "blur" },
+    { type: "email", message: "Введите корректный E-mail", trigger: "blur" },
+  ],
+};
+
+const displayMessage = (type: "success" | "error", detail: string) => {
+  message[type](detail, 2);
+};
+
+const handleFinish = async () => {
+  try {
+    await formRef.value?.validate();
+    const result = await userStore.userResetPassword({
+      email: formState.email.trim(),
+    });
+
+    if (result.data.status === 200) {
+      displayMessage("success", result.data.detail);
     } else {
-      error(result.data.detail);
+      displayMessage("error", result.data.detail);
     }
-  } catch (error) {
-    console.error("Серьезная ошибка:", error);
+  } catch (err) {
+    console.error("Серьезная ошибка:", err);
   }
 };
 
-const onFinishFailed = (errorInfo: object) => {
-  console.log("Failed:", errorInfo);
+const handleFinishFailed = (errors: any) => {
+  console.log("Validation Failed:", errors);
 };
 </script>
-<template>
-  <div class="auth-form">
-    <a-form
-      :model="formState"
-      name="basic"
-      :label-col="{ span: 20 }"
-      :wrapper-col="{ span: 50 }"
-      :rules="rules"
-      autocomplete="on"
-      @finish="onFinish"
-      @finishFailed="onFinishFailed"
-      layout="vertical"
-    >
-      <a-form-item
-        label="Электронная почта"
-        name="email"
-        :rules="[
-          {
-            type: 'email',
-            message: 'Введите вашу электронную почту',
-          },
-          {
-            required: true,
 
-            message: 'Обязательное поле для входа',
-          },
-        ]"
-      >
-        <a-input v-model:value="formState.email" />
-      </a-form-item>
+<style scoped lang="scss">
+.code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-      <a-form-item :wrapper-col="{ offset: 0, span: 16 }">
-        <a-button type="primary" html-type="submit"
-          >Восстановить пароль</a-button
-        >
-      </a-form-item>
-    </a-form>
-  </div>
-</template>
+.subtitle {
+  color: rgba(0, 0, 0, 0.7);
+  padding: 10px 0 24px;
+  font-size: 13px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 311px;
+  gap: 10px;
+
+  .form-button {
+    height: 42px;
+  }
+}
+</style>

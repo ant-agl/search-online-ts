@@ -1,7 +1,5 @@
 <template>
   <Swiper
-    :slidesPerView="'auto'"
-    :spaceBetween="0"
     :pagination="{
       clickable: true,
     }"
@@ -23,7 +21,7 @@
         spaceBetween: 40,
       },
       1024: {
-        slidesPerView: 7,
+        slidesPerView: 10,
         spaceBetween: 0,
       },
     }"
@@ -33,69 +31,8 @@
     :loop="true"
     class="mySwiper"
   >
-    <SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div>
-    </SwiperSlide>
-    <SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div> </SwiperSlide
-    ><SwiperSlide class="swiper-slide">
-      <div class="category">Категория</div>
+    <SwiperSlide class="swiper-slide" v-for="i in 20" :key="i">
+      <router-link class="category" to="#">Категория {{ i }}</router-link>
     </SwiperSlide>
   </Swiper>
 </template>
@@ -110,7 +47,6 @@ import { Autoplay } from "swiper/modules";
   height: 92px;
   display: flex;
   align-items: center;
-  background-color: white;
 }
 
 .swiper-slide {

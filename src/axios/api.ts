@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://search-api.ant-agl.ru",
+  baseURL: "http://api.найти.онлайн:8000",
   headers: {
     "Content-Type": "application/json",
     "X-Auth-Token": localStorage.getItem("token"),

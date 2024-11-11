@@ -4,7 +4,7 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import { createPinia } from "pinia";
-import { ConfigProvider } from "ant-design-vue";
+
 // Плагины
 import VMask from "@ssibrahimbas/v-mask";
 import AntdUi from "ant-design-vue";
@@ -21,7 +21,6 @@ app.use(pinia);
 app.use(router);
 app.use(VMask);
 app.use(AntdUi);
-app.use(ConfigProvider);
 
 // Монтирование приложения
 app.mount("#app");

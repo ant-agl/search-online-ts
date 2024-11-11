@@ -1,49 +1,32 @@
 <template>
   <footer>
-    <div class="informations">
-      <ul>
-        <li><router-link to="#">О нас</router-link></li>
-        <li><router-link to="#">Контакты</router-link></li>
-        <li><router-link to="#">Политика конфедициальности</router-link></li>
-      </ul>
-    </div>
-    <div class="logo-block">
-      <img class="logo" src="@/img/Logo.svg" alt="" />
-      <div class="text">© 2024 Найти онлайн. Все права защищены.</div>
-    </div>
-    <div class="contacts">
-      <ul class="ul-right">
-        <li>brthehrtebe@gmail.com</li>
-        <li>+79780000000</li>
-        <li>Россия, г.Москва, ул.Ленина, д.232</li>
-      </ul>
-      <div class="socials hide">
-        <router-link to="#">
-          <img src="@/img/instagram.svg" alt=""
-        /></router-link>
-        <router-link to="#">
-          <img src="@/img/telegram.svg" alt=""
-        /></router-link>
-        <router-link to="#">
-          <img src="@/img/facebook.svg" alt=""
+    <div class="wrapper-footer">
+      <div class="informations">
+        <ul>
+          <li><router-link to="#">О нас</router-link></li>
+          <li><router-link to="#">Контакты</router-link></li>
+          <li><router-link to="#">Политика конфедициальности</router-link></li>
+        </ul>
+      </div>
+      <div class="logo-block">
+        <router-link to="/">
+          <img class="logo" src="@/img/Logo.svg" alt=""
         /></router-link>
       </div>
-    </div>
-    <div class="logo-block logo-block-mobile">
-      <img class="logo" src="@/img/Logo.svg" alt="" />
-      <div class="socials">
-        <router-link to="#">
-          <img src="@/img/instagram.svg" alt=""
-        /></router-link>
-        <router-link to="#">
-          <img src="@/img/telegram.svg" alt=""
-        /></router-link>
-        <router-link to="#">
-          <img src="@/img/facebook.svg" alt=""
-        /></router-link>
+      <div class="contacts">
+        <ul class="ul-right">
+          <li>brthehrtebe@gmail.com</li>
+          <li>+79780000000</li>
+          <li>Россия, г.Москва, ул.Ленина, д.232</li>
+        </ul>
+        <div class="socials hide">
+          <router-link to="#">
+            <img src="@/img/telegram.svg" alt=""
+          /></router-link>
+        </div>
       </div>
-      <div class="text">© 2024 Найти онлайн. Все права защищены.</div>
     </div>
+    <div class="text">© 2024 Найти онлайн. Все права защищены.</div>
   </footer>
 </template>
 
@@ -52,7 +35,14 @@ footer {
   padding: 43px 0;
   background: var(--color-back);
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+}
+.wrapper-footer {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
 }
 ul {
   list-style-type: none;
@@ -83,10 +73,9 @@ li {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 73px;
 }
-.logo-block-mobile {
-  display: none;
+ul {
+  padding: 0;
 }
 .logo {
   width: 258px;
@@ -94,28 +83,31 @@ li {
 .text {
   font-size: 12px;
 }
-
-@media (max-width: 1020px) {
+@media (max-width: 700px) {
+  .wrapper-footer {
+    grid-template-columns: repeat(1, 1fr);
+    justify-items: flex-start;
+    padding: 0 16px;
+  }
   .logo-block {
-    display: none;
-  }
-  .logo-block-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    grid-row-start: 1;
+    width: 100%;
     align-items: center;
-    grid-column: 1/-1;
   }
-  .hide {
-    display: none;
+  .ul-right {
+    align-items: flex-start;
   }
-  footer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-items: center;
+  .contacts {
+    width: 100%;
+    align-items: flex-start;
+    gap: 0;
+  }
+  .socials {
+    width: 100%;
+    justify-content: center;
+    margin: 18px 0;
   }
 }
-
 @media (max-width: 500px) {
   footer {
     padding: 16px 20px;

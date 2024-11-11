@@ -15,39 +15,82 @@
         <a-input placeholder="Поиск" class="search_input" />
         <a-button class="search_icon" type="none" :icon="h(SearchOutlined)" />
       </div>
-
-      <a-button class="header-button" type="primary">Вход</a-button>
-
-      <a-popover class="mobile-menu" trigger="click">
-        <template #content>
-          <div>
-            <router-link to="#">Главная</router-link>
-          </div>
-          <div>
-            <router-link to="#">Товары</router-link>
-          </div>
-          <div>
-            <router-link to="#">Услуги</router-link>
-          </div>
+      <div class="search-mobile">
+        <SearchOutlined />
+      </div>
+      <a-avatar :size="42" class="avatar">
+        <template #icon>
+          <a-image
+            :width="42"
+            :preview="false"
+            :src="userDataDefault.img"
+            v-if="userDataDefault.img != ''"
+          />
+          <UserOutlined class="icon-style" v-if="userDataDefault.img === ''" />
         </template>
-        <a-button>
-          <div class="line"></div>
-          <div class="line"></div>
-          <div class="line"></div>
-        </a-button>
-      </a-popover>
+      </a-avatar>
+
+      <div class="mobile-menu-flag" @click="isOpenMenu = !isOpenMenu">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+  <div v-show="isOpenMenu" class="wrapper-mobile-menu">
+    <div class="mobile-menu">
+      <div class="closed"><img src="@/img/closed.svg" alt="" /></div>
+      <div class="information">
+        <div class="avatar">
+          <a-avatar :size="100" class="custom-avatar">
+            <template #icon>
+              <a-image
+                :width="100"
+                :preview="false"
+                :src="userDataDefault.img"
+                v-if="userDataDefault.img != ''"
+              />
+              <UserOutlined
+                class="icon-style"
+                v-if="userDataDefault.img === ''"
+              />
+            </template>
+          </a-avatar>
+          <img src="@/img/menuProfile/pencil.svg" alt="" />
+        </div>
+
+        <div class="fio">{{ userDataDefault?.name }}</div>
+        <div class="rating">
+          4.6<img src="@/img/menuProfile/start.svg" alt="" />
+        </div>
+      </div>
+
+      <div class="items">
+        <div v-for="item in items" :key="item?.key" :class="['item']">
+          {{ item?.title }}
+        </div>
+        <div class="item">Профиль</div>
+      </div>
+      <div class="under-items">
+        <div v-for="item in underItems" :key="item" :class="['under-item']">
+          {{ item }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
-
+import { ref, computed } from "vue";
+import { useUserStore } from "@/stores/user";
 import { MenuProps } from "ant-design-vue";
-import { SearchOutlined } from "@ant-design/icons-vue";
+import { SearchOutlined, UserOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
+
+const userStore = useUserStore();
+const userDataDefault = computed(() => userStore.userData);
 const showMenu = ref(false);
 console.log(showMenu.value);
-
+const isOpenMenu = ref(false);
 const current = ref<string[]>(["main"]);
 const items = ref<MenuProps["items"]>([
   {
@@ -69,8 +112,107 @@ const items = ref<MenuProps["items"]>([
     title: "Услуги",
   },
 ]);
+const underItems = [
+  "Финансы",
+  "Сообщения",
+  "Мои заказы",
+  "Избранное",
+  "Центр поддержки",
+  "Мои предложения",
+];
 </script>
-<style scoped>
+<style scoped lang="scss">
+.wrapper-mobile-menu {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+  background-color: var(--color-back);
+  width: 100%;
+  height: 100%;
+}
+.mobile-menu {
+  margin-top: 60px;
+  position: relative;
+  background-color: white;
+  width: 260px;
+  height: 580px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 24px;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgb(0, 0, 0, 15%);
+  .closed {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+  .under-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 12px;
+    opacity: 68%;
+  }
+  .under-item {
+    cursor: pointer;
+  }
+  .custom-avatar {
+    background-color: #d2bff7;
+  }
+  .avatar {
+    position: relative;
+    margin-bottom: 24px;
+    display: block;
+    border-radius: 50px;
+    img {
+      position: absolute;
+      bottom: -13px;
+      right: -5px;
+    }
+  }
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    opacity: 68%;
+  }
+  .item {
+    cursor: pointer;
+  }
+  .activeItem {
+    color: var(--color-primary);
+    position: relative;
+    padding-left: 10px;
+    display: block;
+    &::before {
+      content: "";
+      width: 17px;
+      display: block;
+      border: 1px solid var(--color-primary);
+      position: absolute;
+      bottom: 50%;
+      left: -10px;
+      rotate: 90deg;
+      border-radius: 20px;
+    }
+  }
+  .information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .rating {
+    font-size: 20px;
+    margin-top: 11px;
+    img {
+      margin-left: 8px;
+    }
+  }
+}
+
 .header-menu-logo {
   display: flex;
   gap: 4px;
@@ -83,11 +225,17 @@ const items = ref<MenuProps["items"]>([
   padding-left: 10px;
   padding-right: 20px;
   background-color: white;
+  position: relative;
+  width: 100%;
+  z-index: 3;
 }
 .logo {
   max-width: 178px;
 }
-
+.avatar {
+  background-color: #d2bff7;
+  cursor: pointer;
+}
 .header-main {
   display: flex;
   align-items: center;
@@ -100,12 +248,16 @@ const items = ref<MenuProps["items"]>([
 }
 .search_icon {
   position: absolute;
-  right: 8px;
+  right: 4px;
 }
 .search_input {
   width: 296px;
   border-radius: 25px;
   padding-right: 38px;
+}
+:deep(.ant-input) {
+  background: inherit;
+  padding: 5px 14px;
 }
 .header-button {
   width: 104px;
@@ -123,11 +275,17 @@ const items = ref<MenuProps["items"]>([
 :deep(.menu .ant-menu-item-selected) {
   opacity: 1 !important;
 }
-.mobile-menu {
+.mobile-menu-flag {
   display: none;
   flex-direction: column;
   gap: 6px;
   border: none;
+}
+.search-mobile {
+  font-size: 24px;
+  color: var(--color-primary);
+  cursor: pointer;
+  display: none;
 }
 .line {
   border: 1.7px solid var(--color-primary);
@@ -138,16 +296,26 @@ const items = ref<MenuProps["items"]>([
   .search {
     display: none;
   }
+  .search-mobile {
+    display: block;
+  }
 }
 @media (max-width: 700px) {
   .menu {
     display: none;
   }
-  .mobile-menu {
+  .mobile-menu-flag {
     display: flex;
   }
   .show-menu {
     right: 0;
+  }
+  .header-main {
+    height: 48px;
+    gap: 10px;
+  }
+  .avatar {
+    display: none;
   }
   .header-button {
     border-radius: 8px;

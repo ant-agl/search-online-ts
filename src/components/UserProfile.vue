@@ -3,13 +3,23 @@ import { ref, computed } from "vue";
 
 import { useUserStore } from "@/stores/user";
 import type { Rule } from "ant-design-vue/es/form";
-
+import type { SelectProps } from "ant-design-vue";
 const userStore = useUserStore();
 const userDataDefault = computed(() => userStore.userData);
 const userData = ref({ ...userDataDefault.value });
 const onFinish = (values: object) => {
   console.log("Success:", values);
 };
+const options = [
+  { value: "Вконтакте" },
+  { value: "Телеграм" },
+  { value: "Сайт" },
+  { value: "Телефон" },
+  { value: "Почта" },
+];
+const randomIndex = Math.floor(Math.random() * options.length);
+const size = ref<SelectProps["size"]>("middle");
+const selectOne = ref(options[randomIndex]);
 
 const onFinishFailed = (errorInfo: object) => {
   console.log("Failed:", errorInfo);
@@ -77,23 +87,53 @@ const rules: Record<string, Rule[]> = {
       />
     </a-form-item> -->
       <a-row gutter="24">
-        <a-col span="12">
-          <a-form-item name="name" label="ФИО">
+        <div class="fio">
+          <a-form-item name="name" label="Фамилия">
             <a-input
               v-model:value="userData.name"
-              placeholder="Введите ФИО"
+              placeholder="Введите фамилию"
               allow-clear
-            /> </a-form-item
-        ></a-col>
+            />
+          </a-form-item>
+          <a-form-item name="surname" label="Имя">
+            <a-input
+              v-model:value="userData.name"
+              placeholder="Введите имя"
+              allow-clear
+            />
+          </a-form-item>
+          <a-form-item name="patronymic" label="Отчество">
+            <a-input
+              v-model:value="userData.name"
+              placeholder="Введите отчество"
+              allow-clear
+            />
+          </a-form-item>
+        </div>
         <a-col span="12">
           <a-form-item name="email" label="Электронная почта">
             <a-input
+              disabled="true"
               v-model:value="userData.email"
               placeholder="Введите электронную почту"
               allow-clear
             /> </a-form-item
         ></a-col>
       </a-row>
+      <div class="select">
+        <a-select
+          v-model:value="selectOne"
+          :size="size"
+          :options="options"
+        ></a-select>
+        <a-input allow-clear />
+        <div>
+          <img src="@/img/menuProfile/visible.svg" class="visible" alt="" />
+          <img src="@/img/menuProfile/hide-visible.svg" class="hide" />
+        </div>
+
+        <img src="@/img/menuProfile/delete-profile.svg" alt="" />
+      </div>
 
       <a-typography-title :level="5">Контакты</a-typography-title>
       <a-form-item name="tel" label="Номер телефона">
@@ -132,6 +172,15 @@ const rules: Record<string, Rule[]> = {
 </template>
 
 <style scoped>
+.hide {
+  display: none;
+}
+.select {
+  display: grid;
+
+  grid-template-columns: 17fr 17fr 0.3fr 03fr;
+  gap: 5px;
+}
 .user-profile {
   background-color: var(--color-back-modal);
 
@@ -139,6 +188,11 @@ const rules: Record<string, Rule[]> = {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.fio {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 .title {
   font-weight: 500;

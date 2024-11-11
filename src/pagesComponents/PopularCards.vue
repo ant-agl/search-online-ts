@@ -156,12 +156,14 @@
     <a-button class="button" type="primary" ghost>Больше товаров</a-button>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .populars {
   display: flex;
   flex-direction: column;
   gap: 40px;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 .cards {
   display: grid;
@@ -177,9 +179,29 @@
   border-radius: 5px;
   overflow: hidden;
   line-height: 22px;
+  border: 1px solid transparent;
+  box-shadow: -1px 2px 14px -11px;
+  border-radius: 20px;
+  background: rgb(255, 255, 255, 0.9);
+  cursor: pointer;
+  &:hover {
+    .card-arrow {
+      transition: all 0.3s ease-out;
+      width: 80%;
+      padding-left: 15px;
+    }
+    .text-arrow {
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.3s ease-in;
+    }
+  }
+  &:not(:hover) .text-arrow {
+    transition: opacity 0.1s ease-out, visibility 0.1s ease-out;
+  }
 }
 .top-img {
-  max-height: 157px;
+  height: 157px;
 }
 .card-bottom {
   padding: 20px 25px 59px 25px;
@@ -211,21 +233,7 @@
   position: absolute;
   bottom: 20px;
   right: 25px;
-
-  transition: all 1s ease-in-out;
-}
-
-.card-arrow:hover {
-  width: 80%;
-  padding-left: 15px;
-}
-
-.card-arrow {
-  transition: all 1s ease-in-out;
-}
-
-.card-arrow:hover {
-  transition: all 0.5s ease-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .text-arrow {
@@ -234,18 +242,8 @@
   color: white;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.4s ease-in-out;
   font-weight: 300;
-}
-
-.card-arrow:hover .text-arrow {
-  opacity: 1;
-  visibility: visible;
-  transition: all 0.5s ease-in;
-}
-
-.card-arrow:not(:hover) .text-arrow {
-  transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
 }
 
 .arrow {
@@ -308,7 +306,7 @@
     padding-left: 8px;
   }
   .button {
-    width: 280px;
+    width: 168px;
   }
   .cards {
     margin: 0;

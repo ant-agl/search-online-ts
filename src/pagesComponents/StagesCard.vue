@@ -1,12 +1,11 @@
 <template>
-  <div class="stage-cards">
+  <div class="stage-cards padding-section">
     <div class="wrapper-cards">
       <h2 class="title">Как это работает?</h2>
       <div class="cards">
-        <a-popover title="Заява" trigger="hover">
+        <a-popover title="Заява" placement="topLeft" trigger="hover">
           <template #content>
-            <p>Шла сасака по соше и теперь вертсальщик</p>
-            <p>Кто лучший!? Я!</p>
+            <p>Создайте заявку</p>
           </template>
 
           <a-button>
@@ -16,11 +15,9 @@
             </div></a-button
           >
         </a-popover>
-        <a-popover title="Заява" trigger="hover">
+        <a-popover title="Заява" placement="topLeft" trigger="hover">
           <template #content>
-            <p>
-              Аааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааайаафправрафырпвафрпывапрфыавпрфаврпфаврпфавпрыфаврпфоыварфпоавлопфывлорфдгвапо]ыпадропыолрвапорыпагшцупдфгмсшпдцроупапфыдорбапцунгоап
-            </p>
+            <p>Получите предложения</p>
           </template>
 
           <a-button>
@@ -30,10 +27,9 @@
             </div></a-button
           >
         </a-popover>
-        <a-popover title="Заява" trigger="hover">
+        <a-popover title="Заява" placement="topRight" trigger="hover">
           <template #content>
-            <p>Шла сасака по соше и теперь вертсальщик</p>
-            <p>Кто лучший!? Я!</p>
+            <p>Выберите лучшее предложение</p>
           </template>
 
           <a-button>
@@ -43,10 +39,9 @@
             </div></a-button
           >
         </a-popover>
-        <a-popover title="Заява" trigger="hover">
+        <a-popover title="Заява" placement="topRight" trigger="hover">
           <template #content>
-            <p>Шла сасака по соше и теперь вертсальщик</p>
-            <p>Кто лучший!? Я!</p>
+            <p>Заключите сделку и оплатите</p>
           </template>
 
           <a-button>
@@ -68,12 +63,10 @@
 .stage-cards {
   position: relative;
 }
-.wrapper-cards {
-  padding: 63px 0;
-}
 
 .cards {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 231px);
   gap: 25px;
   align-items: center;
   justify-content: center;
@@ -83,6 +76,7 @@
 
 .title {
   text-align: center;
+  margin-bottom: 44px;
 }
 .number {
   border-radius: 50%;
@@ -102,18 +96,15 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 18px;
+  line-height: 22px;
 }
 :deep(.ant-btn) {
-  width: 231px;
   height: 175px;
   padding: 1px;
   border-radius: 30px;
-  background: rgb(255, 255, 255, 0.6);
+  background: rgb(255, 255, 255, 0.9);
   border: 1px solid transparent;
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-
-  backdrop-filter: blur(10px);
+  box-shadow: -1px 2px 14px -11px;
 }
 .text {
   text-wrap: wrap;
@@ -121,5 +112,31 @@
   font-size: 16px;
   font-weight: 600;
   color: rgb(0, 0, 0, 0.7);
+}
+@media (max-width: 1000px) {
+  .cards {
+    grid-template-columns: repeat(2, 231px);
+  }
+}
+
+@media (max-width: 500px) {
+  .cards {
+    grid-template-columns: repeat(2, 140px);
+    gap: 8px;
+  }
+  .text {
+    font-size: 10px;
+  }
+  :deep(.ant-btn) {
+    height: 114px;
+  }
+  .popover-child {
+    margin: 16px 17px;
+    gap: 10px;
+  }
+
+  .title {
+    margin-bottom: 24px;
+  }
 }
 </style>
