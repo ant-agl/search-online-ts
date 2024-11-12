@@ -72,7 +72,7 @@ a {
 
 .ant-select {
   .ant-select-selector {
-    padding: 9px 15px !important;
+    padding: 7px 15px !important;
     height: auto !important;
     border: none !important;
     border-radius: 20px !important;

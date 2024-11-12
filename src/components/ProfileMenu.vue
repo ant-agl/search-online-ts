@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { MenuProps } from "ant-design-vue";
 
 import UserProfile from "./UserProfile.vue";
+import SalesmanProfile from "./SalesmanProfile.vue";
 
 const current = ref<string[]>(["user"]);
 const items = ref<MenuProps["items"]>([
@@ -14,7 +15,7 @@ const items = ref<MenuProps["items"]>([
     title: "Настройки профиля",
   },
   {
-    key: "org",
+    key: "salesman",
 
     label: "Настройки продавца",
     title: "Настройки продавца",
@@ -30,10 +31,11 @@ const items = ref<MenuProps["items"]>([
       :items="items"
     />
     <UserProfile v-if="current.includes('user')" />
+    <SalesmanProfile v-if="current.includes('salesman')" />
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .profile-menu {
   width: 758px;
   border-radius: 20px;
@@ -45,5 +47,8 @@ const items = ref<MenuProps["items"]>([
 .menu {
   padding-left: 46px;
   filter: drop-shadow(0px 4px 10px rgb(0, 0, 0, 15%));
+  :deep(.ant-menu-item) {
+    color: rgba(0, 0, 0, 0.7);
+  }
 }
 </style>

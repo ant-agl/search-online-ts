@@ -33,15 +33,8 @@ export interface UserRegistrationFormState {
 }
 export interface OrgRegistrationFormState {
   selectOrg: string;
-  selectCategory: string;
-  selectCity: string;
-  nameCompany: string;
-  adresStore: string;
-  descriptionCompany: string;
-  vk: string;
-  tg: string;
-  tel: string;
   name: string;
+  descriptionCompany: string;
   inn: string;
   kpp: string;
   ogrn: string;

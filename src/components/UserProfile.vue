@@ -1,15 +1,29 @@
 <script setup lang="ts">
-import { ref, computed, reactive } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 import { useUserStore } from "@/stores/user";
 import type { Rule } from "ant-design-vue/es/form";
+
 const userStore = useUserStore();
 const userDataDefault = computed(() => userStore.userData);
 const userData = ref({ ...userDataDefault.value });
+const optionsCities = ref([]);
 const onFinish = (values: object) => {
   console.log("Success:", values);
+  console.log("Success:", userData);
 };
-
+interface getCities {
+  id: number;
+  name: string;
+}
+onMounted(() => {
+  userStore.getCities().then((res) => {
+    const cities = res.data.result.map((city: getCities) => {
+      return { value: city.id, label: city.name };
+    });
+    optionsCities.value = cities;
+  });
+});
 type OptionType = "vk" | "tg" | "site" | "phone" | "email";
 interface Option {
   value: OptionType;
@@ -24,7 +38,7 @@ const options: Option[] = [
 ];
 const optionsFilter = computed<Option[]>(() => {
   return options.filter(({ value }) => {
-    return !contacts.find(({ type }) => type == value);
+    return !contacts.value.find(({ type }) => type == value);
   });
 });
 const getOptionsForType = (type: OptionType): Option[] => {
@@ -39,19 +53,43 @@ interface Contact {
   value: string;
   hide: boolean;
 }
-const contacts = reactive<Contact[]>([
+const contacts = ref<Contact[]>([
   {
     type: "vk",
     value: "https://vk.com",
-    hide: false,
-  },
-  {
-    type: "tg",
-    value: "https://tg.me",
-    hide: false,
+    hide: true,
   },
 ]);
-
+const addContact = () => {
+  const optionsArry = options.map((item) => item.value);
+  const contactsArry = contacts.value.map((item) => item.type);
+  const freeItems = optionsArry.filter((item) => !contactsArry.includes(item));
+  if (freeItems.length) {
+    contacts.value.push({ type: freeItems[0], value: "", hide: true });
+  }
+};
+const deleteContact = (type: OptionType) => {
+  contacts.value = contacts.value.filter((item) => item.type != type);
+  console.log(type);
+};
+const hideContact = (type: OptionType) => {
+  contacts.value = contacts.value.map((item) => {
+    if (type === item.type) {
+      return { ...item, hide: false };
+    } else {
+      return item;
+    }
+  });
+};
+const visibleContact = (type: OptionType) => {
+  contacts.value = contacts.value.map((item) => {
+    if (type === item.type) {
+      return { ...item, hide: true };
+    } else {
+      return item;
+    }
+  });
+};
 const onFinishFailed = (errorInfo: object) => {
   console.log("Failed:", errorInfo);
 };
@@ -98,7 +136,7 @@ const rules: Record<string, Rule[]> = {
 </script>
 <template>
   <div class="user-profile">
-    <div class="title">Мой профиль</div>
+    <div class="title-profile">Мой профиль</div>
     <div class="warning">Профиль заполнен не полностью</div>
     <a-form
       :rules="rules"
@@ -111,12 +149,6 @@ const rules: Record<string, Rule[]> = {
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
-      <!-- <a-form-item name="selectCity" label="Город">
-      <CitysSelect
-        v-model:valueSelect="userData.location"
-        :defaultValue="userData.location"
-      />
-    </a-form-item> -->
       <a-row gutter="24">
         <div class="fio">
           <a-form-item name="name" label="Фамилия">
@@ -141,70 +173,84 @@ const rules: Record<string, Rule[]> = {
             />
           </a-form-item>
         </div>
-        <a-col span="12">
+        <div class="city-email">
+          <a-form-item name="location" label="Город">
+            <a-select
+              v-model:value="userData.location"
+              :options="optionsCities"
+            ></a-select>
+          </a-form-item>
           <a-form-item name="email" label="Электронная почта">
             <a-input
               disabled="true"
               v-model:value="userData.email"
               placeholder="Введите электронную почту"
               allow-clear
-            /> </a-form-item
-        ></a-col>
-      </a-row>
-
-      <div v-for="(contact, i) in contacts" :key="i" class="select">
-        <a-select
-          v-model:value="contact.type"
-          :options="getOptionsForType(contact.type)"
-        ></a-select>
-        <a-input allow-clear v-model:value="contact.value" />
-        <div>
-          <img src="@/img/menuProfile/visible.svg" class="visible" alt="" />
-          <img src="@/img/menuProfile/hide-visible.svg" class="hide" />
+            />
+          </a-form-item>
         </div>
-
-        <img src="@/img/menuProfile/delete-profile.svg" alt="" />
+      </a-row>
+      <div class="contacts-title">
+        Контактная информация
+        <img @click="addContact" src="@/img/menuProfile/plus.svg" alt="" />
       </div>
+      <div class="contacts">
+        <div v-for="(contact, i) in contacts" :key="i" class="select">
+          <a-form-item :name="contact.type">
+            <a-select
+              v-model:value="contact.type"
+              :options="getOptionsForType(contact.type)"
+            ></a-select>
+          </a-form-item>
 
-      <a-typography-title :level="5">Контакты</a-typography-title>
-      <a-form-item name="tel" label="Номер телефона">
-        <a-input
-          v-mask="'+7 (###) ###-##-##'"
-          v-model:value="userData.tel"
-          placeholder="Введите номер телефона"
-          allow-clear
-        />
-      </a-form-item>
-      <a-form-item name="vk" label="Вк">
-        <a-input
-          v-model:value="userData.vk"
-          placeholder="Вставьте ссылку Вк"
-          allow-clear
-        />
-      </a-form-item>
-      <a-form-item name="tg" label="Телеграм">
-        <a-input
-          v-model:value="userData.tg"
-          placeholder="Вставьте ссылку Телегам"
-          allow-clear
-        />
-      </a-form-item>
-      <a-form-item name="hideNumber">
-        Скрыть номер: <a-switch v-model:checked="userData.hideNumber" />
-      </a-form-item>
+          <a-form-item :name="contact.type">
+            <a-input
+              v-mask="contact.type === 'phone' ? '+7 (###) ###-##-##' : ''"
+              allow-clear
+              v-model:value="contact.value"
+            />
+          </a-form-item>
 
-      <a-form-item :wrapper-col="{ offset: 0, span: 10 }">
+          <div class="contact-visible">
+            <img
+              v-show="contact.hide"
+              src="@/img/menuProfile/visible.svg"
+              class="visible"
+              @click="hideContact(contact.type)"
+            />
+            <img
+              v-show="!contact.hide"
+              src="@/img/menuProfile/hide-visible.svg"
+              @click="visibleContact(contact.type)"
+              class="hide"
+            />
+          </div>
+
+          <img
+            class="contact-delete"
+            @click="deleteContact(contact.type)"
+            src="@/img/menuProfile/delete-profile.svg"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="save">
         <a-button type="primary" html-type="submit" :disabled="!isFormDirty"
           >Сохранить</a-button
         >
-      </a-form-item>
+      </div>
     </a-form>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.contacts-title {
+  margin-bottom: 20px;
+  img {
+    cursor: pointer;
+  }
+}
 .hide {
-  display: none;
 }
 .select {
   display: grid;
@@ -244,5 +290,33 @@ const rules: Record<string, Rule[]> = {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+}
+.city-email {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  gap: 14px;
+}
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.contact-visible,
+.contact-delete {
+  cursor: pointer;
+}
+.save {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+:deep(.ant-btn-primary) {
+  padding: 6px 34px;
+  line-height: 0;
+}
+.title-profile {
+  margin-bottom: 20px;
+  color: rgba(0, 0, 0, 0.7);
 }
 </style>

@@ -21,7 +21,7 @@ const initialState: State = {
     name: "Джеки Чан",
     email: "Djeki@mail.ru",
     tel: "+7 (938) 526-97-83",
-    location: { value: "615", label: "Москва, Москва" },
+    location: { value: "", label: "" },
     hideNumber: false,
     vk: "https://vk.com",
     tg: "https://tg.me",
@@ -129,9 +129,9 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    async getCity(data: number) {
+    async getCities() {
       try {
-        const response = await api.post("/city/get", data);
+        const response = await api.get("/common/cities");
         console.log("get city", response);
         return response;
       } catch (error) {
