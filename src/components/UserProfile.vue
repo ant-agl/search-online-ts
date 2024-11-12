@@ -1,25 +1,56 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 
 import { useUserStore } from "@/stores/user";
 import type { Rule } from "ant-design-vue/es/form";
-import type { SelectProps } from "ant-design-vue";
 const userStore = useUserStore();
 const userDataDefault = computed(() => userStore.userData);
 const userData = ref({ ...userDataDefault.value });
 const onFinish = (values: object) => {
   console.log("Success:", values);
 };
-const options = [
-  { value: "Вконтакте" },
-  { value: "Телеграм" },
-  { value: "Сайт" },
-  { value: "Телефон" },
-  { value: "Почта" },
+
+type OptionType = "vk" | "tg" | "site" | "phone" | "email";
+interface Option {
+  value: OptionType;
+  label: string;
+}
+const options: Option[] = [
+  { value: "vk", label: "Вконтакте" },
+  { value: "tg", label: "Телеграм" },
+  { value: "site", label: "Сайт" },
+  { value: "phone", label: "Телефон" },
+  { value: "email", label: "Почта" },
 ];
-const randomIndex = Math.floor(Math.random() * options.length);
-const size = ref<SelectProps["size"]>("middle");
-const selectOne = ref(options[randomIndex]);
+const optionsFilter = computed<Option[]>(() => {
+  return options.filter(({ value }) => {
+    return !contacts.find(({ type }) => type == value);
+  });
+});
+const getOptionsForType = (type: OptionType): Option[] => {
+  return [{ value: type, label: getValueOption(type) }, ...optionsFilter.value];
+};
+const getValueOption = (type: OptionType): string => {
+  return options.find(({ value }) => value == type)?.label ?? "";
+};
+
+interface Contact {
+  type: OptionType;
+  value: string;
+  hide: boolean;
+}
+const contacts = reactive<Contact[]>([
+  {
+    type: "vk",
+    value: "https://vk.com",
+    hide: false,
+  },
+  {
+    type: "tg",
+    value: "https://tg.me",
+    hide: false,
+  },
+]);
 
 const onFinishFailed = (errorInfo: object) => {
   console.log("Failed:", errorInfo);
@@ -120,13 +151,13 @@ const rules: Record<string, Rule[]> = {
             /> </a-form-item
         ></a-col>
       </a-row>
-      <div class="select">
+
+      <div v-for="(contact, i) in contacts" :key="i" class="select">
         <a-select
-          v-model:value="selectOne"
-          :size="size"
-          :options="options"
+          v-model:value="contact.type"
+          :options="getOptionsForType(contact.type)"
         ></a-select>
-        <a-input allow-clear />
+        <a-input allow-clear v-model:value="contact.value" />
         <div>
           <img src="@/img/menuProfile/visible.svg" class="visible" alt="" />
           <img src="@/img/menuProfile/hide-visible.svg" class="hide" />
