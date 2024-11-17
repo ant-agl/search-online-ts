@@ -137,4 +137,9 @@
     }
   }
 }
+@media (max-width: 700px) {
+  .wrapper .bg-ellipses__item:nth-child(3) {
+    display: none;
+  }
+}
 </style>

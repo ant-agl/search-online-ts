@@ -149,7 +149,7 @@ const rules: Record<string, Rule[]> = {
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
-      <a-row gutter="24">
+      <a-row>
         <div class="fio">
           <a-form-item name="name" label="Фамилия">
             <a-input
@@ -210,28 +210,29 @@ const rules: Record<string, Rule[]> = {
               v-model:value="contact.value"
             />
           </a-form-item>
+          <div class="button-contacts">
+            <div class="contact-visible">
+              <img
+                v-show="contact.hide"
+                src="@/img/menuProfile/visible.svg"
+                class="visible"
+                @click="hideContact(contact.type)"
+              />
+              <img
+                v-show="!contact.hide"
+                src="@/img/menuProfile/hide-visible.svg"
+                @click="visibleContact(contact.type)"
+                class="hide"
+              />
+            </div>
 
-          <div class="contact-visible">
             <img
-              v-show="contact.hide"
-              src="@/img/menuProfile/visible.svg"
-              class="visible"
-              @click="hideContact(contact.type)"
-            />
-            <img
-              v-show="!contact.hide"
-              src="@/img/menuProfile/hide-visible.svg"
-              @click="visibleContact(contact.type)"
-              class="hide"
+              class="contact-delete"
+              @click="deleteContact(contact.type)"
+              src="@/img/menuProfile/delete-profile.svg"
+              alt=""
             />
           </div>
-
-          <img
-            class="contact-delete"
-            @click="deleteContact(contact.type)"
-            src="@/img/menuProfile/delete-profile.svg"
-            alt=""
-          />
         </div>
       </div>
       <div class="save">
@@ -255,8 +256,13 @@ const rules: Record<string, Rule[]> = {
 .select {
   display: grid;
 
-  grid-template-columns: 17fr 17fr 0.3fr 03fr;
+  grid-template-columns: 17fr 17fr 0.6fr;
   gap: 5px;
+}
+.button-contacts {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
 }
 .user-profile {
   background-color: var(--color-back-modal);
@@ -316,7 +322,34 @@ const rules: Record<string, Rule[]> = {
   line-height: 0;
 }
 .title-profile {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   color: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 700px) {
+  .fio {
+    flex-direction: column;
+  }
+  .city-email {
+    grid-template-columns: 1fr;
+  }
+  .select {
+    grid-template-columns: 1fr;
+  }
+  :deep(.ant-form-item) {
+    margin-bottom: 5px;
+  }
+}
+@media (max-width: 500px) {
+  .user-profile {
+    padding: 24px 20px 18px 20px;
+  }
+  .save {
+    margin-top: 20px;
+    justify-content: center;
+  }
+  .warning {
+    font-size: 12px;
+  }
 }
 </style>

@@ -2,10 +2,10 @@
   <div class="connect-us padding-section">
     <div class="connect-us-middle">
       <div class="title-connect">Присоединяйтесь к нам!</div>
-      <router-link to="#">
+      <router-link to="/signin">
         <a-button class="connect-us_btn" type="primary"> Войти </a-button>
       </router-link>
-      <router-link to="#">
+      <router-link to="/signup">
         <a-button ghost type="primary" class="connect-us_btn">
           Зарегистрироваться
         </a-button>

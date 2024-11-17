@@ -51,4 +51,14 @@ const items = ref<MenuProps["items"]>([
     color: rgba(0, 0, 0, 0.7);
   }
 }
+
+@media (max-width: 500px) {
+  .menu {
+    padding-left: 0px;
+
+    :deep(.ant-menu-item) {
+      font-size: 10px;
+    }
+  }
+}
 </style>

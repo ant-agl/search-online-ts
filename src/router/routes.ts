@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: "/start",
     name: "StartPage",
     meta: {
       titleKey: "StartPage",
@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/components/StartPage.vue"),
   },
   {
-    path: "/main",
+    path: "/",
     name: "HeaderMenu",
     meta: {
       titleKey: "HeaderMenu",

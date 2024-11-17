@@ -27,7 +27,7 @@
             <template #prefix><LockOutlined /></template>
           </a-input>
         </a-form-item>
-        <RouterLink class="forgot" to="#"> Забыли пароль?</RouterLink>
+        <RouterLink class="forgot" to="/forgot"> Забыли пароль?</RouterLink>
         <a-button
           type="primary"
           html-type="submit"
@@ -50,31 +50,39 @@
 
       <div class="sign-in">
         Еще нет аккаунт?
-        <RouterLink to="#" class="router">Зарегистрироваться</RouterLink>
+        <RouterLink to="/signup" class="router">Зарегистрироваться</RouterLink>
       </div>
     </div>
   </WrapperRegSign>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { MailOutlined, LockOutlined } from "@ant-design/icons-vue";
 import type { UnwrapRef } from "vue";
+import { useRouter } from "vue-router";
 import type { FormProps, FormInstance } from "ant-design-vue";
 import type { Rule } from "ant-design-vue/es/form";
 import { useUserStore } from "@/stores/user";
 import WrapperRegSign from "@/components/wrapper/WrapperRegSign.vue";
 import { message } from "ant-design-vue";
+const router = useRouter();
 interface FormState {
   email: string;
   password: string;
 }
 const userStore = useUserStore();
+const isAuth = computed({
+  get: () => userStore.isAuth,
+  set: (newValue) => {
+    userStore.isAuth = newValue;
+  },
+});
 const success = (detail: string) => {
   message.success(detail, 2);
 };
 const error = (detail: string) => {
-  message.error(detail, 2);
+  message.error(detail, 4);
 };
 const formRef = ref<FormInstance>();
 const formState: UnwrapRef<FormState> = reactive({
@@ -93,14 +101,15 @@ const handleFinish: FormProps["onFinish"] = async (values) => {
     const result = await userStore.login(data);
     if (result.data.status == 200) {
       localStorage.setItem("token", result.data.token);
+      isAuth.value = true;
+      router.push("/menuprofile");
       success(result.data.detail);
     } else {
       error(result.data.detail);
     }
-
-    // router.push("/CheckAuth");
-  } catch (error) {
-    console.error("Серьезная ошибка:", error);
+  } catch (erro) {
+    console.error("Серьезная ошибка:", erro);
+    error("Неправильный логин или пароль");
   }
   console.log(values, formState);
 };

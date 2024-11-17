@@ -179,7 +179,7 @@
   border-radius: 5px;
   overflow: hidden;
   line-height: 22px;
-  border: 1px solid transparent;
+  border: 0px;
   box-shadow: -1px 2px 14px -11px;
   border-radius: 20px;
   background: rgb(255, 255, 255, 0.9);

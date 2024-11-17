@@ -180,4 +180,20 @@ const formState = reactive<OrgRegistrationFormState>({
   margin-bottom: 20px;
   color: rgba(0, 0, 0, 0.7);
 }
+
+@media (max-width: 700px) {
+  .forma {
+    grid-template-columns: 1fr;
+  }
+  .salesman {
+    padding: 24px 20px 18px 20px;
+  }
+  :deep(.ant-form-item) {
+    margin-bottom: 0px;
+  }
+  .save {
+    margin-top: 20px;
+    justify-content: center;
+  }
+}
 </style>

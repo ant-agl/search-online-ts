@@ -11,12 +11,14 @@ import {
 
 // Типизация состояния
 interface State {
+  isAuth: boolean;
   userData: UserData;
   userOrganization: UserOrganization;
 }
 
 // Начальное состояние
 const initialState: State = {
+  isAuth: true,
   userData: {
     name: "Джеки Чан",
     email: "Djeki@mail.ru",
@@ -108,8 +110,8 @@ export const useUserStore = defineStore("user", {
     async login(data: AuthIn) {
       console.log(data);
       try {
-        const response = await api.post("/login", data);
-        localStorage.setItem("token", response.data.token);
+        const response = await api.post("/auth/token", data);
+
         console.log("login", response);
         return response;
       } catch (error) {

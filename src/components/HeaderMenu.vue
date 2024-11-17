@@ -1,7 +1,10 @@
 <template>
   <div class="wrapper-header">
     <div class="header-menu-logo">
-      <img class="logo" src="@/img/Logo.svg" alt="" />
+      <RouterLink to="/">
+        <img class="logo" src="@/img/Logo.svg" alt="" />
+      </RouterLink>
+
       <a-menu
         :class="['menu']"
         v-model:selectedKeys="current"
@@ -18,34 +21,37 @@
       <div class="search-mobile">
         <SearchOutlined />
       </div>
-      <a-avatar :size="42" class="avatar">
-        <template #icon>
-          <a-image
-            :width="42"
-            :preview="false"
-            :src="userDataDefault.img"
-            v-if="userDataDefault.img != ''"
-          />
-          <UserOutlined class="icon-style" v-if="userDataDefault.img === ''" />
-        </template>
-      </a-avatar>
+      <RouterLink v-if="!isAuth" to="/signIn">
+        <a-button type="primary">Войти</a-button>
+      </RouterLink>
 
-      <div class="mobile-menu-flag" @click="isOpenMenu = !isOpenMenu">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-      </div>
-    </div>
-  </div>
-  <div v-show="isOpenMenu" class="wrapper-mobile-menu">
-    <div class="mobile-menu">
-      <div class="closed"><img src="@/img/closed.svg" alt="" /></div>
-      <div class="information">
-        <div class="avatar">
-          <a-avatar :size="100" class="custom-avatar">
+      <a-popover
+        v-else-if="isAuth"
+        class="menu-popover ant-popover-open"
+        placement="bottomLeft"
+      >
+        <template #content>
+          <div class="popover-link" overlayClassName="custom-popover">
+            <RouterLink
+              v-for="menu in underItems"
+              :key="menu.key"
+              :to="menu.link"
+            >
+              {{ menu.title }}</RouterLink
+            >
+            <div @click="isAuth = false" class="log-out">Выйти</div>
+          </div>
+        </template>
+        <template #title>
+          <span class="popover-title"
+            ><img src="@/img/location.svg" alt="" /> Москва</span
+          >
+        </template>
+        <a-button class="secodary-menu">
+          <a-avatar :size="42" class="avatar">
             <template #icon>
               <a-image
-                :width="100"
+                :width="42"
                 :preview="false"
                 :src="userDataDefault.img"
                 v-if="userDataDefault.img != ''"
@@ -54,26 +60,65 @@
                 class="icon-style"
                 v-if="userDataDefault.img === ''"
               />
-            </template>
-          </a-avatar>
-          <img src="@/img/menuProfile/pencil.svg" alt="" />
+            </template> </a-avatar
+        ></a-button>
+      </a-popover>
+      <div
+        v-if="isAuth"
+        class="mobile-menu-flag"
+        @click="isOpenMenu = !isOpenMenu"
+      >
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+    <div v-show="isOpenMenu" class="wrapper-mobile-menu">
+      <div class="mobile-menu">
+        <div class="closed" @click="isOpenMenu = !isOpenMenu">
+          <img src="@/img/closed.svg" alt="" />
+        </div>
+        <div class="information">
+          <div class="avatar">
+            <a-avatar :size="100" class="custom-avatar">
+              <template #icon>
+                <a-image
+                  :width="100"
+                  :preview="false"
+                  :src="userDataDefault.img"
+                  v-if="userDataDefault.img != ''"
+                />
+                <UserOutlined
+                  class="icon-style"
+                  v-if="userDataDefault.img === ''"
+                />
+              </template>
+            </a-avatar>
+            <img src="@/img/menuProfile/pencil.svg" alt="" />
+          </div>
+
+          <div class="fio">{{ userDataDefault?.name }}</div>
+          <div class="rating">
+            4.6<img src="@/img/menuProfile/start.svg" alt="" />
+          </div>
         </div>
 
-        <div class="fio">{{ userDataDefault?.name }}</div>
-        <div class="rating">
-          4.6<img src="@/img/menuProfile/start.svg" alt="" />
+        <div class="items">
+          <div v-for="item in items" :key="item?.key" :class="['item']">
+            {{ item?.title }}
+          </div>
+          <!-- <div class="item">Профиль</div> -->
         </div>
-      </div>
-
-      <div class="items">
-        <div v-for="item in items" :key="item?.key" :class="['item']">
-          {{ item?.title }}
-        </div>
-        <div class="item">Профиль</div>
-      </div>
-      <div class="under-items">
-        <div v-for="item in underItems" :key="item" :class="['under-item']">
-          {{ item }}
+        <div class="under-items">
+          <RouterLink
+            v-for="menu in underItems"
+            :key="menu.key"
+            :to="menu.link"
+            :class="['under-item']"
+          >
+            {{ menu.title }}
+          </RouterLink>
+          <div @click="isAuth = false" class="log-out">Выйти</div>
         </div>
       </div>
     </div>
@@ -91,11 +136,16 @@ const userDataDefault = computed(() => userStore.userData);
 const showMenu = ref(false);
 console.log(showMenu.value);
 const isOpenMenu = ref(false);
+const isAuth = computed({
+  get: () => userStore.isAuth,
+  set: (newValue) => {
+    userStore.isAuth = newValue;
+  },
+});
 const current = ref<string[]>(["main"]);
-const items = ref<MenuProps["items"]>([
+const items = ref([
   {
     key: "main",
-
     label: "Главная",
     title: "Главная",
   },
@@ -113,12 +163,14 @@ const items = ref<MenuProps["items"]>([
   },
 ]);
 const underItems = [
-  "Финансы",
-  "Сообщения",
-  "Мои заказы",
-  "Избранное",
-  "Центр поддержки",
-  "Мои предложения",
+  { key: 1, title: "Отзывы", link: "#" },
+  { key: 2, title: "Профиль", link: "/menuprofile" },
+  { key: 3, title: "Финансы", link: "#" },
+  { key: 4, title: "Сообщения", link: "#" },
+  { key: 5, title: "Мои заказы", link: "#" },
+  { key: 6, title: "Избранное", link: "#" },
+  { key: 7, title: "Центр поддержки", link: "#" },
+  { key: 8, title: "Мои предложения", link: "#" },
 ];
 </script>
 <style scoped lang="scss">
@@ -135,7 +187,7 @@ const underItems = [
   margin-top: 60px;
   position: relative;
   background-color: white;
-  width: 260px;
+  width: 90%;
   height: 580px;
   display: flex;
   flex-direction: column;
@@ -155,6 +207,9 @@ const underItems = [
     gap: 12px;
     font-size: 12px;
     opacity: 68%;
+    a {
+      color: rgba(0, 0, 0, 0.7);
+    }
   }
   .under-item {
     cursor: pointer;
@@ -232,6 +287,50 @@ const underItems = [
 .logo {
   max-width: 178px;
 }
+
+.popover-link {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0;
+  padding: 0 30px;
+  a {
+    color: var(--color-text);
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+.log-out {
+  color: #8d4949;
+  cursor: pointer;
+}
+// :global(.ant-popover .ant-popover-inner) {
+//   padding: 0 !important;
+//   overflow-y: hidden;
+// }
+.custom-popover .ant-popover-inner {
+  padding: 0 !important;
+  .ant-popover-arrow::after {
+    background-color: #e9e9e9;
+  }
+}
+
+.popover-title {
+  background-color: #e9e9e9;
+  padding: 6px 10px;
+  width: 100%;
+  display: flex;
+  gap: 6px;
+  border-radius: 6px;
+}
+.secodary-menu {
+  width: 37px;
+  height: 100%;
+  padding: 0;
+  border: none;
+}
+
 .avatar {
   background-color: #d2bff7;
   cursor: pointer;
@@ -306,6 +405,9 @@ const underItems = [
   }
   .mobile-menu-flag {
     display: flex;
+  }
+  .secodary-menu {
+    display: none;
   }
   .show-menu {
     right: 0;

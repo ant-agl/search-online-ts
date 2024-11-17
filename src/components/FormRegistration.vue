@@ -63,7 +63,8 @@
       </div>
 
       <div class="sign-in">
-        Уже есть аккаунт? <RouterLink to="#" class="router">Войти</RouterLink>
+        Уже есть аккаунт?
+        <RouterLink to="/signin" class="router">Войти</RouterLink>
       </div>
     </div>
   </WrapperRegSign>
@@ -80,8 +81,10 @@ import type { UnwrapRef } from "vue";
 import type { FormInstance } from "ant-design-vue";
 import type { Rule } from "ant-design-vue/es/form";
 import { useUserStore } from "@/stores/user";
+import { useRouter } from "vue-router";
 import WrapperRegSign from "@/components/wrapper/WrapperRegSign.vue";
 import { message } from "ant-design-vue";
+import { isValidatedAxiosError } from "@/types/errorUtils";
 
 interface FormState {
   name: string;
@@ -90,13 +93,11 @@ interface FormState {
   password: string;
   checkPassword: string;
 }
-
+const router = useRouter();
 const userStore = useUserStore();
-const success = (detail: string) => {
-  message.success(detail, 2);
-};
+
 const error = (detail: string) => {
-  message.error(detail, 2);
+  message.error(detail, 4);
 };
 const formRef = ref<FormInstance>();
 const formState: UnwrapRef<FormState> = reactive({
@@ -119,14 +120,28 @@ const handleFinish = async () => {
     };
 
     const result = await userStore.registrationUserData(data);
-    if (result.data.status == 200) {
-      success(result.data.detail);
+    if (result.data.status == 201) {
+      localStorage.setItem("token", result.data.access_token);
+      userStore.isAuth = true;
+      router.push("/menuprofile");
     } else {
       error(result.data.detail);
     }
-  } catch (validationErrors) {
-    error("Пожалуйста, заполните все поля правильно.");
-    console.error("Ошибки валидации:", validationErrors);
+  } catch (err) {
+    if (isValidatedAxiosError(err)) {
+      const message = err.response?.data?.message;
+      if (message) {
+        console.error("Error Message:", message);
+        error(message);
+      } else {
+        console.error(
+          "Response data does not contain a message:",
+          err.response?.data
+        );
+      }
+    } else {
+      console.error("Unexpected error:", err);
+    }
   }
 };
 

@@ -24,6 +24,7 @@ const theme = ref({
   --color-primary: #7318c4;
   --color-back: #f9f3ff;
   --color-back-modal: rgb(255, 255, 255, 60%);
+  --color-text: rgba(0, 0, 0, 0.7);
 }
 * {
   font-family: "Montserrat", sans-serif;

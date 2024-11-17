@@ -69,6 +69,7 @@ console.log(userData.value);
   justify-content: center;
   gap: 24px;
   margin-top: 30px;
+  margin: 30px 2%;
 }
 .menu-profile {
   background-color: var(--color-back-modal);
@@ -129,6 +130,12 @@ console.log(userData.value);
   margin-top: 11px;
   img {
     margin-left: 8px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .menu-profile {
+    display: none;
   }
 }
 </style>
