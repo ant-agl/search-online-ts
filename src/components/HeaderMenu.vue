@@ -39,7 +39,7 @@
             >
               {{ menu.title }}</RouterLink
             >
-            <div @click="isAuth = false" class="log-out">Выйти</div>
+            <div @click="modal = true" class="log-out">Выйти</div>
           </div>
         </template>
         <template #title>
@@ -73,7 +73,7 @@
         <div class="line"></div>
       </div>
     </div>
-    <div v-show="isOpenMenu" class="wrapper-mobile-menu">
+    <div v-if="isOpenMenu" class="wrapper-mobile-menu">
       <div class="mobile-menu">
         <div class="closed" @click="isOpenMenu = !isOpenMenu">
           <img src="@/img/closed.svg" alt="" />
@@ -118,7 +118,22 @@
           >
             {{ menu.title }}
           </RouterLink>
-          <div @click="isAuth = false" class="log-out">Выйти</div>
+          <div @click="modal = true" class="log-out">Выйти</div>
+        </div>
+      </div>
+    </div>
+    <div v-if="modal" class="wrapper-modal-out" @click="modal = false">
+      <div class="modal-out" @click.stop>
+        <img
+          class="closed"
+          @click="modal = false"
+          src="@/img/closed.svg"
+          alt=""
+        />
+        <div class="text">Вы уверены что хотите выйти из профиля?</div>
+        <div class="buttons">
+          <a-button @click="modal = false" type="primary">нет</a-button>
+          <a-button @click="handleModalOut">да</a-button>
         </div>
       </div>
     </div>
@@ -142,6 +157,12 @@ const isAuth = computed({
     userStore.isAuth = newValue;
   },
 });
+const modal = ref(true);
+const handleModalOut = () => {
+  modal.value = false;
+  isAuth.value = false;
+  isOpenMenu.value = false;
+};
 const current = ref<string[]>(["main"]);
 const items = ref([
   {
@@ -174,6 +195,65 @@ const underItems = [
 ];
 </script>
 <style scoped lang="scss">
+.wrapper-modal-out {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(0, 0, 0, 30%);
+  display: flex;
+  justify-content: center;
+  z-index: 3;
+  left: 0;
+}
+.modal-out {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: 674px;
+  height: 148px;
+  background-color: white;
+  border-radius: 20px;
+  margin-top: 284px;
+
+  .closed {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    cursor: pointer;
+  }
+  .text {
+    font-size: 20px;
+    font-weight: 450;
+  }
+}
+.buttons {
+  display: flex;
+  gap: 16px;
+  button {
+    width: 84px;
+  }
+  :nth-child(2):hover {
+    border-color: rgb(99, 1, 1, 70%);
+    color: rgb(99, 1, 1, 70%);
+  }
+}
+@media (max-width: 700px) {
+  .modal-out {
+    width: 90%;
+    padding: 0 42px;
+    .text {
+      font-size: 14px;
+      text-align: center;
+    }
+    .closed {
+      right: 8px;
+      top: 8px;
+    }
+  }
+}
 .wrapper-mobile-menu {
   position: fixed;
   display: flex;
@@ -182,6 +262,7 @@ const underItems = [
   background-color: var(--color-back);
   width: 100%;
   height: 100%;
+  left: 0;
 }
 .mobile-menu {
   margin-top: 60px;

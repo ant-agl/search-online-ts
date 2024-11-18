@@ -251,8 +251,7 @@ const rules: Record<string, Rule[]> = {
     cursor: pointer;
   }
 }
-.hide {
-}
+
 .select {
   display: grid;
 
