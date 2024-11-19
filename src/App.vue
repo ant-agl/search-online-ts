@@ -22,6 +22,7 @@ const theme = ref({
 @import "swiper/css/pagination";
 :root {
   --color-primary: #7318c4;
+  --color-second-primary: #5d169c;
   --color-back: #f9f3ff;
   --color-back-modal: rgb(255, 255, 255, 60%);
   --color-text: rgba(0, 0, 0, 0.7);

@@ -66,6 +66,7 @@ import type { Rule } from "ant-design-vue/es/form";
 import { useUserStore } from "@/stores/user";
 import WrapperRegSign from "@/components/wrapper/WrapperRegSign.vue";
 import { message } from "ant-design-vue";
+import { isValidatedAxiosError } from "@/types/errorUtils";
 const router = useRouter();
 interface FormState {
   email: string;
@@ -99,17 +100,31 @@ const handleFinish: FormProps["onFinish"] = async (values) => {
     };
 
     const result = await userStore.login(data);
-    if (result.data.status == 200) {
-      localStorage.setItem("token", result.data.token);
+    console.log(result);
+    if (result.status == 200) {
+      localStorage.setItem("access_token", result.data.access_token);
+      localStorage.setItem("refresh_token", result.data.refresh_token);
       isAuth.value = true;
       router.push("/menuprofile");
       success(result.data.detail);
     } else {
       error(result.data.detail);
     }
-  } catch (erro) {
-    console.error("Серьезная ошибка:", erro);
-    error("Неправильный логин или пароль");
+  } catch (err) {
+    if (isValidatedAxiosError(err)) {
+      const message = err.response?.data?.message;
+      if (message) {
+        console.error("Error Message:", message);
+        error(message);
+      } else {
+        console.error(
+          "Response data does not contain a message:",
+          err.response?.data
+        );
+      }
+    } else {
+      console.error("Unexpected error:", err);
+    }
   }
   console.log(values, formState);
 };

@@ -14,7 +14,7 @@
       >
         <a-form-item name="email">
           <a-input
-            v-model:value="formState.email"
+            v-model:value.trim="formState.email"
             placeholder="E-mail"
             allow-clear
           >
@@ -37,7 +37,7 @@ import WrapperRegSign from "@/components/wrapper/WrapperRegSign.vue";
 import { useUserStore } from "@/stores/user";
 import { MailOutlined } from "@ant-design/icons-vue";
 import type { FormInstance, RuleObject } from "ant-design-vue/es/form";
-
+import { isValidatedAxiosError } from "@/types/errorUtils";
 interface FormState {
   email: string;
 }
@@ -64,16 +64,29 @@ const handleFinish = async () => {
   try {
     await formRef.value?.validate();
     const result = await userStore.userResetPassword({
-      email: formState.email.trim(),
+      email: formState.email,
     });
-
-    if (result.data.status === 200) {
+    console.log(result);
+    if (result.status === 204) {
       displayMessage("success", result.data.detail);
     } else {
       displayMessage("error", result.data.detail);
     }
   } catch (err) {
-    console.error("Серьезная ошибка:", err);
+    if (isValidatedAxiosError(err)) {
+      const message = err.response?.data?.message;
+      if (message) {
+        console.error("Error Message:", message);
+        displayMessage("error", message);
+      } else {
+        console.error(
+          "Response data does not contain a message:",
+          err.response?.data
+        );
+      }
+    } else {
+      console.error("Unexpected error:", err);
+    }
   }
 };
 

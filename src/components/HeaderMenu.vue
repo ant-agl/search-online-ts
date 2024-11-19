@@ -18,9 +18,7 @@
         <a-input placeholder="Поиск" class="search_input" />
         <a-button class="search_icon" type="none" :icon="h(SearchOutlined)" />
       </div>
-      <div class="search-mobile">
-        <SearchOutlined />
-      </div>
+
       <RouterLink v-if="!isAuth" to="/signIn">
         <a-button type="primary">Войти</a-button>
       </RouterLink>
@@ -39,7 +37,7 @@
             >
               {{ menu.title }}</RouterLink
             >
-            <div @click="modal = true" class="log-out">Выйти</div>
+            <div @click="handleModalShow" class="log-out">Выйти</div>
           </div>
         </template>
         <template #title>
@@ -63,105 +61,61 @@
             </template> </a-avatar
         ></a-button>
       </a-popover>
+      <div @click="searchMobile = true" class="search-mobile">
+        <SearchOutlined />
+      </div>
       <div
         v-if="isAuth"
         class="mobile-menu-flag"
-        @click="isOpenMenu = !isOpenMenu"
+        @click="mobileMenu = !mobileMenu"
       >
         <div class="line"></div>
         <div class="line"></div>
         <div class="line"></div>
       </div>
     </div>
-    <div v-if="isOpenMenu" class="wrapper-mobile-menu">
-      <div class="mobile-menu">
-        <div class="closed" @click="isOpenMenu = !isOpenMenu">
-          <img src="@/img/closed.svg" alt="" />
-        </div>
-        <div class="information">
-          <div class="avatar">
-            <a-avatar :size="100" class="custom-avatar">
-              <template #icon>
-                <a-image
-                  :width="100"
-                  :preview="false"
-                  :src="userDataDefault.img"
-                  v-if="userDataDefault.img != ''"
-                />
-                <UserOutlined
-                  class="icon-style"
-                  v-if="userDataDefault.img === ''"
-                />
-              </template>
-            </a-avatar>
-            <img src="@/img/menuProfile/pencil.svg" alt="" />
-          </div>
-
-          <div class="fio">{{ userDataDefault?.name }}</div>
-          <div class="rating">
-            4.6<img src="@/img/menuProfile/start.svg" alt="" />
-          </div>
-        </div>
-
-        <div class="items">
-          <div v-for="item in items" :key="item?.key" :class="['item']">
-            {{ item?.title }}
-          </div>
-          <!-- <div class="item">Профиль</div> -->
-        </div>
-        <div class="under-items">
-          <RouterLink
-            v-for="menu in underItems"
-            :key="menu.key"
-            :to="menu.link"
-            :class="['under-item']"
-          >
-            {{ menu.title }}
-          </RouterLink>
-          <div @click="modal = true" class="log-out">Выйти</div>
-        </div>
-      </div>
-    </div>
-    <div v-if="modal" class="wrapper-modal-out" @click="modal = false">
-      <div class="modal-out" @click.stop>
-        <img
-          class="closed"
-          @click="modal = false"
-          src="@/img/closed.svg"
-          alt=""
-        />
-        <div class="text">Вы уверены что хотите выйти из профиля?</div>
-        <div class="buttons">
-          <a-button @click="modal = false" type="primary">нет</a-button>
-          <a-button @click="handleModalOut">да</a-button>
-        </div>
-      </div>
-    </div>
+    <MobileMenu
+      v-if="mobileMenu"
+      v-model:open="mobileMenu"
+      @handleModalShow="handleModalShow"
+    />
+    <ModalOut
+      v-if="modalOut"
+      v-model:open="modalOut"
+      @handleModalOut="handleModalOut"
+    />
+    <SearchMobile v-if="searchMobile" v-model:open="searchMobile" />
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { useUserStore } from "@/stores/user";
-import { MenuProps } from "ant-design-vue";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
-
+import MobileMenu from "./mobile/MobileMenu.vue";
+import ModalOut from "./modals/ModalOut.vue";
+import SearchMobile from "./modals/SearchMobile.vue";
 const userStore = useUserStore();
 const userDataDefault = computed(() => userStore.userData);
-const showMenu = ref(false);
-console.log(showMenu.value);
-const isOpenMenu = ref(false);
+
+const mobileMenu = ref(false);
+const modalOut = ref(false);
+const searchMobile = ref(false);
 const isAuth = computed({
   get: () => userStore.isAuth,
   set: (newValue) => {
     userStore.isAuth = newValue;
   },
 });
-const modal = ref(true);
+
 const handleModalOut = () => {
-  modal.value = false;
+  modalOut.value = false;
   isAuth.value = false;
-  isOpenMenu.value = false;
+  mobileMenu.value = false;
+};
+
+const handleModalShow = () => {
+  modalOut.value = true;
 };
 const current = ref<string[]>(["main"]);
 const items = ref([
@@ -195,160 +149,6 @@ const underItems = [
 ];
 </script>
 <style scoped lang="scss">
-.wrapper-modal-out {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  background-color: rgb(0, 0, 0, 30%);
-  display: flex;
-  justify-content: center;
-  z-index: 3;
-  left: 0;
-}
-.modal-out {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  width: 674px;
-  height: 148px;
-  background-color: white;
-  border-radius: 20px;
-  margin-top: 284px;
-
-  .closed {
-    position: absolute;
-    right: 25px;
-    top: 25px;
-    cursor: pointer;
-  }
-  .text {
-    font-size: 20px;
-    font-weight: 450;
-  }
-}
-.buttons {
-  display: flex;
-  gap: 16px;
-  button {
-    width: 84px;
-  }
-  :nth-child(2):hover {
-    border-color: rgb(99, 1, 1, 70%);
-    color: rgb(99, 1, 1, 70%);
-  }
-}
-@media (max-width: 700px) {
-  .modal-out {
-    width: 90%;
-    padding: 0 42px;
-    .text {
-      font-size: 14px;
-      text-align: center;
-    }
-    .closed {
-      right: 8px;
-      top: 8px;
-    }
-  }
-}
-.wrapper-mobile-menu {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  z-index: 2;
-  background-color: var(--color-back);
-  width: 100%;
-  height: 100%;
-  left: 0;
-}
-.mobile-menu {
-  margin-top: 60px;
-  position: relative;
-  background-color: white;
-  width: 90%;
-  height: 580px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  gap: 24px;
-  padding: 20px 30px;
-  border-radius: 20px;
-  box-shadow: 0px 4px 10px rgb(0, 0, 0, 15%);
-  .closed {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-  }
-  .under-items {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    font-size: 12px;
-    opacity: 68%;
-    a {
-      color: rgba(0, 0, 0, 0.7);
-    }
-  }
-  .under-item {
-    cursor: pointer;
-  }
-  .custom-avatar {
-    background-color: #d2bff7;
-  }
-  .avatar {
-    position: relative;
-    margin-bottom: 24px;
-    display: block;
-    border-radius: 50px;
-    img {
-      position: absolute;
-      bottom: -13px;
-      right: -5px;
-    }
-  }
-  .items {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    opacity: 68%;
-  }
-  .item {
-    cursor: pointer;
-  }
-  .activeItem {
-    color: var(--color-primary);
-    position: relative;
-    padding-left: 10px;
-    display: block;
-    &::before {
-      content: "";
-      width: 17px;
-      display: block;
-      border: 1px solid var(--color-primary);
-      position: absolute;
-      bottom: 50%;
-      left: -10px;
-      rotate: 90deg;
-      border-radius: 20px;
-    }
-  }
-  .information {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .rating {
-    font-size: 20px;
-    margin-top: 11px;
-    img {
-      margin-left: 8px;
-    }
-  }
-}
-
 .header-menu-logo {
   display: flex;
   gap: 4px;
@@ -382,14 +182,11 @@ const underItems = [
     }
   }
 }
-.log-out {
+:deep(.log-out) {
   color: #8d4949;
   cursor: pointer;
 }
-// :global(.ant-popover .ant-popover-inner) {
-//   padding: 0 !important;
-//   overflow-y: hidden;
-// }
+
 .custom-popover .ant-popover-inner {
   padding: 0 !important;
   .ant-popover-arrow::after {

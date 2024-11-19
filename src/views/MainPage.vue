@@ -48,9 +48,9 @@ requestAnimationFrame(updateParallax);
         <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
         <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
         <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
+        <!-- <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
         <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
-        <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
-        <img src="@/img/main/ellipse.png" class="bg-ellipses__item" />
+        <img src="@/img/main/ellipse.png" class="bg-ellipses__item" /> -->
       </div>
     </div>
 
@@ -137,7 +137,7 @@ a {
   left: 204px;
   top: 1558px;
 }
-.bg-ellipses__item:nth-child(9) {
+/* .bg-ellipses__item:nth-child(9) {
   width: 150px;
   right: 118px;
   top: 1856px;
@@ -151,5 +151,48 @@ a {
   width: 104px;
   left: 133px;
   top: 2176px;
+} */
+@media (max-width: 500px) {
+  .bg-ellipses__item {
+    position: absolute;
+  }
+  .bg-ellipses__item:nth-child(1) {
+    width: 106px;
+    left: -36px;
+    top: 175px;
+  }
+  .bg-ellipses__item:nth-child(2) {
+    width: 65px;
+    right: -12px;
+    top: 0px;
+  }
+  .bg-ellipses__item:nth-child(3) {
+    display: none;
+  }
+  .bg-ellipses__item:nth-child(4) {
+    width: 58px;
+    right: 110px;
+    top: 641px;
+  }
+  .bg-ellipses__item:nth-child(5) {
+    width: 85px;
+    left: -17px;
+    top: 791px;
+  }
+  .bg-ellipses__item:nth-child(6) {
+    width: 54px;
+    left: 223px;
+    top: 1145px;
+  }
+  .bg-ellipses__item:nth-child(7) {
+    width: 54px;
+    right: 242px;
+    top: 1268px;
+  }
+  .bg-ellipses__item:nth-child(8) {
+    width: 40px;
+    left: 256px;
+    top: 1485px;
+  }
 }
 </style>
