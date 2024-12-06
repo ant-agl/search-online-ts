@@ -56,7 +56,7 @@ a {
   margin-inline-end: 10px !important;
 }
 .ant-input {
-  border-radius: 30px;
+  border-radius: 20px;
   padding: 10px 14px;
   background-color: #f2f2f2;
 }
@@ -64,7 +64,9 @@ a {
   border-radius: 20px;
   transition: all 0.3s ease-in-out;
 }
-
+.ant-btn {
+  border-radius: 20px;
+}
 :where(
     .css-dev-only-do-not-override-keyed0
   ).ant-btn-primary.ant-btn-background-ghost:hover {

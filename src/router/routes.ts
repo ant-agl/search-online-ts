@@ -117,6 +117,29 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import("@/components/MenuProfile.vue"),
   },
+  {
+    path: "/afterregistration",
+    name: "AfterRegistration",
+    meta: {
+      titleKey: "AfterRegistration",
+      layout: "auth",
+      noauth: true,
+      props: true,
+    },
+    component: () =>
+      import("@/components/fillingAfterRegistration/FormaFilling.vue"),
+  },
+  {
+    path: "/choosesellbuy",
+    name: "ChooseSellBuy",
+    meta: {
+      titleKey: "ChooseSellBuy",
+      layout: "auth",
+      noauth: true,
+      props: true,
+    },
+    component: () => import("@/views/ChooseSellBuyView.vue"),
+  },
 ];
 
 export default routes;
