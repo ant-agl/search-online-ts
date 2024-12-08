@@ -3,13 +3,17 @@
     <div class="choose">
       <div class="title">Я хочу...</div>
       <div class="sell_buy">
-        <RouterLink to="#">
+        <RouterLink
+          :to="{ name: 'AfterRegistration', params: { param: 'buy' } }"
+        >
           <div class="buy">
             <img src="@/img/choose/buy.png" alt="" />
             <div class="title text">Купить</div>
           </div>
         </RouterLink>
-        <RouterLink to="#">
+        <RouterLink
+          :to="{ name: 'AfterRegistration', params: { param: 'sell' } }"
+        >
           <div class="sell">
             <img src="@/img/choose/sell.png" alt="" />
             <div class="title text">Продать</div>

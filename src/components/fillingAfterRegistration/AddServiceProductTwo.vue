@@ -61,7 +61,10 @@
       </div>
 
       <!-- Доставка -->
-      <a-form-item v-if="props.orgData?.select === 'Товар'" name="delivery">
+      <a-form-item
+        v-if="props.serviceProduct?.select === 'Товар'"
+        name="delivery"
+      >
         <a-checkbox v-model:checked="serviceProduct.delivery"
           >Доставка</a-checkbox
         >
@@ -97,11 +100,11 @@ import AppInputMoney from "../App/AppInputMoney.vue";
 
 const emit = defineEmits(["stepPrevNext", "updateServiceProductData"]);
 const props = defineProps({
-  orgData: {
+  serviceProduct: {
     type: Object,
   },
 });
-
+console.log(props.serviceProduct);
 const options = [
   { value: "Фиксированная", label: "Фиксированная" },
   { value: "Диапазон", label: "Диапазон" },
@@ -110,12 +113,16 @@ const options = [
 const serviceProduct = ref({
   name: "",
   description: "",
-  priceSelect: options[0].value,
   fixPrice: 0,
   minPrice: 0,
   maxPrice: 0,
   delivery: false,
   time: "",
+  ...props.serviceProduct,
+  priceSelect:
+    props.serviceProduct?.priceSelect === ""
+      ? options[0].value
+      : props.serviceProduct?.priceSelect,
 });
 
 // Слушаем изменения в priceSelect и сбрасываем значения
@@ -159,10 +166,13 @@ const createPriceValidator = (field: string): Rule => ({
 
 const onFinish = (values: object) => {
   console.log("Success:", values);
+  emit("updateServiceProductData", values);
+  emit("stepPrevNext", "next");
 };
 
 const prev = () => {
-  emit("updateServiceProductData", serviceProduct);
+  console.log(serviceProduct);
+  emit("updateServiceProductData", serviceProduct.value);
   emit("stepPrevNext", "prev");
 };
 

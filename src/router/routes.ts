@@ -118,7 +118,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/components/MenuProfile.vue"),
   },
   {
-    path: "/afterregistration",
+    path: "/afterregistration:param",
     name: "AfterRegistration",
     meta: {
       titleKey: "AfterRegistration",

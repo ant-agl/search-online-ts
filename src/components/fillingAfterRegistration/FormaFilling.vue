@@ -1,10 +1,12 @@
 <template>
   <div class="wrapper-filling">
     <div class="filling">
-      <div class="title-form">Заполнение профиля</div>
+      <div class="title-form">
+        {{ getTitle }} <span @click="handleSkip">Пропустить</span>
+      </div>
       <div class="progress-bar" :style="{ width: percentBar + '%' }"></div>
       <div class="bloks-filling">
-        <!-- <UserProfile
+        <UserProfile
           v-if="activeMenu === 'user'"
           v-bind:userData="data.userData"
           @stepPrevNext="stepPrevNext"
@@ -21,29 +23,56 @@
           :serviceProduct="data.serviceProduct"
           @stepPrevNext="stepPrevNext"
           @updateServiceProductData="updateServiceProductData"
-        /> -->
-        <!-- <AddServiceProductTwo /> -->
-        <!-- <AddServiceProductThree /> -->
-        <AddServiceProductFour />
+        />
+        <AddServiceProductTwo
+          v-if="activeMenu === 'serviceProductTwo'"
+          :serviceProduct="data.serviceProduct"
+          @stepPrevNext="stepPrevNext"
+          @updateServiceProductData="updateServiceProductData"
+        />
+        <AddServiceProductThree
+          v-if="activeMenu === 'serviceProductThree'"
+          :serviceProduct="data.serviceProduct"
+          @stepPrevNext="stepPrevNext"
+          @updateServiceProductData="updateServiceProductData"
+        />
+        <AddServiceProductFour
+          v-if="activeMenu === 'serviceProductFour'"
+          :serviceProduct="data.serviceProduct"
+          @stepPrevNext="stepPrevNext"
+          @updateServiceProductData="updateServiceProductData"
+          :flagBuy="flagBuy"
+        />
       </div>
-
-      <!-- <div class="back-next">
-        <a-button class="back" type="primary" ghost>Назад</a-button>
-        <a-button class="next" type="primary">Далее</a-button>
-      </div> -->
     </div>
+    <ModalWarning v-model:open="openWarning" @callback="skip">{{
+      flagBuy
+        ? "Вы уверены, что хотите пропустить добавление заявки?"
+        : "Вы уверены, что хотите пропустить добавление товара/услуги?"
+    }}</ModalWarning>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import UserProfile from "./UserProfile.vue";
 import OrganizationData from "./OrganizationData.vue";
 import AddServiceProduct from "./AddServiceProduct.vue";
 import AddServiceProductTwo from "./AddServiceProductTwo.vue";
 import AddServiceProductThree from "./AddServiceProductThree.vue";
 import AddServiceProductFour from "./AddServiceProductFour.vue";
-
+import ModalWarning from "../modals/ModalWarning.vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
+const flagBuy = route.params.param === "buy" ? true : false;
+console.log(route.params.param);
+const openWarning = ref(false);
+const skip = () => {
+  console.log("skip");
+};
+const handleSkip = () => {
+  openWarning.value = true;
+};
 type OptionType = "vk" | "tg" | "site" | "phone" | "email";
 interface Location {
   value: string;
@@ -85,7 +114,7 @@ interface ServiceProduct {
   delivery: boolean;
   time: string;
   informationText: string;
-  images: Array<any>;
+  images: Array<string>;
 }
 interface Forma {
   userData: User;
@@ -94,7 +123,7 @@ interface Forma {
 }
 const data = reactive<Forma>({
   userData: {
-    name: "Fill",
+    name: "",
     surname: "",
     patronymic: "",
     location: null,
@@ -128,7 +157,31 @@ const data = reactive<Forma>({
   },
 });
 const activeMenu = ref("user");
-const menu = ["user", "org", "serviceProduct"];
+let menu = [
+  "user",
+  "org",
+  "serviceProduct",
+  "serviceProductTwo",
+  "serviceProductThree",
+  "serviceProductFour",
+];
+const getTitle = computed(() => {
+  let title = "error";
+
+  switch (activeMenu.value) {
+    case "user":
+      title = "Заполнение профиля";
+      break;
+    case "org":
+      title = "Информация о продавце";
+      break;
+    default:
+      title = flagBuy
+        ? "Поиск товара или услуги"
+        : "Добавление товара или услуги";
+  }
+  return title;
+});
 
 const percentBar = computed(() => {
   const counts = menu.length;
@@ -141,6 +194,7 @@ const stepPrevNext = (step: "next" | "prev" | "prevRouter") => {
   if (step === "next") {
     activeMenu.value = menu[index + 1];
   } else if (step === "prev") {
+    console.log(menu[index - 1]);
     activeMenu.value = menu[index - 1];
   } else if (step === "prevRouter") {
     console.log("prevRouter");
@@ -159,6 +213,12 @@ const updateServiceProductData = (newOrgData: ServiceProduct) => {
   data.serviceProduct = { ...data.serviceProduct, ...newOrgData };
   console.log(data);
 };
+onMounted(() => {
+  if (flagBuy) {
+    menu = menu.filter((val) => val !== "serviceProductThree" && val !== "org");
+  }
+  console.log(menu);
+});
 </script>
 <style lang="scss" scoped>
 .padding {
@@ -172,13 +232,13 @@ const updateServiceProductData = (newOrgData: ServiceProduct) => {
   border-bottom-right-radius: 20px;
 }
 .wrapper-filling {
-  margin-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .filling {
   // padding: 0px 30px 60px;
+  margin-top: 100px;
   border-radius: 20px;
   background-color: white;
   width: 1180px;
@@ -200,6 +260,15 @@ const updateServiceProductData = (newOrgData: ServiceProduct) => {
   box-shadow: 0px 4px 10px rgb(0, 0, 0, 10%);
   border-bottom: 1px solid #f0f0f0;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    color: var(--color-second-primary);
+    font-size: 14px;
+    font-weight: 300;
+    cursor: pointer;
+  }
 }
 :deep(.back-next) {
   display: flex;

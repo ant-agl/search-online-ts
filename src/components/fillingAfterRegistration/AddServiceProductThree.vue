@@ -41,21 +41,23 @@ import LabelTooltip from "../App/LabelTooltip.vue";
 
 const emit = defineEmits(["stepPrevNext", "updateServiceProductData"]);
 const props = defineProps({
-  orgData: {
+  serviceProduct: {
     type: Object,
   },
 });
 
 const serviceProduct = ref({
-  informationText: "",
+  informationText: props.serviceProduct?.informationText,
 });
 
 const onFinish = (values: object) => {
   console.log("Success:", values);
+  emit("updateServiceProductData", serviceProduct.value);
+  emit("stepPrevNext", "next");
 };
 
 const prev = () => {
-  emit("updateServiceProductData", serviceProduct);
+  emit("updateServiceProductData", serviceProduct.value);
   emit("stepPrevNext", "prev");
 };
 

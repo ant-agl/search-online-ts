@@ -14,7 +14,7 @@
         </template>
         <a-select
           class="select"
-          v-model:value="select"
+          v-model:value="serviceProduct.select"
           :options="options"
         ></a-select>
       </a-form-item>
@@ -43,7 +43,7 @@ import CategoryCascader from "../App/CategoryCascader.vue";
 import type { Rule } from "ant-design-vue/es/form";
 const emit = defineEmits(["stepPrevNext", "updateServiceProductData"]);
 const props = defineProps({
-  orgData: {
+  serviceProduct: {
     type: Object,
   },
 });
@@ -51,16 +51,24 @@ const options = [
   { value: "Товар", label: "Товар" },
   { value: "Услуга", label: "Услуга" },
 ];
-const select = ref(options[0].value);
 
 const serviceProduct = ref({
-  select: options[0].value,
-  categorys: [],
+  select:
+    props.serviceProduct?.select === ""
+      ? options[0].value
+      : props.serviceProduct?.select,
+
+  categorys: [...props.serviceProduct?.categorys],
 });
 
 const onFinish = (values: object) => {
   console.log("Success:", values);
-  emit("updateServiceProductData", values);
+  if (serviceProduct.value.select === "Услуга") {
+    emit("updateServiceProductData", { ...values, delivery: false });
+  } else {
+    emit("updateServiceProductData", values);
+  }
+
   emit("stepPrevNext", "next");
 };
 const prev = () => {

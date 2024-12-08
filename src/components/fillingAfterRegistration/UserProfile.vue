@@ -361,6 +361,7 @@ const getContactValueRules = (contact: Contact): Rule[] => {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  gap: 14px;
 }
 .title {
   font-weight: 500;

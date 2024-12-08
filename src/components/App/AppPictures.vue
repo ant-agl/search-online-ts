@@ -4,8 +4,9 @@
       v-model:file-list="fileList"
       list-type="picture-card"
       :before-upload="beforeUpload"
+      :custom-request="dummyRequest"
       @preview="handlePreview"
-      @change="chan"
+      :max-count="8"
     >
       <div v-if="fileList.length < 8">
         <plus-outlined />
@@ -13,91 +14,72 @@
       </div>
     </a-upload>
 
-    <!-- <a-modal
-      :open="previewVisible"
-      :title="previewTitle"
-      :footer="null"
-      @cancel="handleCancel"
-    >
-      <img alt="example" style="width: 100%" :src="previewImage" />
-    </a-modal> -->
-
-    <SwiperImages v-show="previewVisible" v-model:images="previewImages" />
+    <SwiperImages
+      v-if="previewVisible"
+      v-model:open="previewVisible"
+      :images="previewImages"
+      :activeSlide="activeSlide"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import SwiperImages from "../SwiperImages.vue";
-
-// Список файлов
-const fileList = ref([
-  {
-    uid: "-2",
-    name: "image.png",
-    status: "done",
-    url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-  },
-  {
-    uid: "-4",
-    name: "image.png",
-    status: "done",
-    url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-  },
-]);
+import { message } from "ant-design-vue";
+import { PlusOutlined } from "@ant-design/icons-vue";
 
 // Состояния для модального окна
 const previewVisible = ref(false);
 const previewImages = ref([]);
+const activeSlide = ref(0);
+
+// Список файлов
+const fileList = defineModel("images");
 
 // Показ предпросмотра изображения
-const handlePreview = async (file) => {
-  //   if (!file.url && !file.preview) {
-  //     file.preview = await getBase64(file.originFileObj);
-  //   }
-  //   previewImage.value = file.url || file.preview;
-
+const handlePreview = (filePrev) => {
   let images = [];
-  fileList.value.forEach(async (file) => {
-    if (file.originFileObj) {
-      images.push(await getBase64(file.originFileObj));
+
+  fileList.value.forEach((file, index) => {
+    if (filePrev.uid === file.uid) {
+      activeSlide.value = index;
+    }
+    if (file.thumbUrl) {
+      images.push(file.thumbUrl);
+    } else if (file.url) {
+      images.push(file.url);
     }
   });
+
   previewImages.value = images;
-  console.log(previewImages.value);
   previewVisible.value = true;
 };
 
-// Закрытие модального окна
-const handleCancel = () => {
-  previewVisible.value = false;
-  previewTitle.value = "";
-};
-
-// Преобразование файла в base64
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}
-
 // Проверка файла перед загрузкой
 const beforeUpload = (file) => {
-  // Можно добавить проверку на формат и размер файла
-  const isImage = file.type.startsWith("image/");
+  // Проверка формата файла
+  const isImage = ["image/jpg", "image/jpeg", "image/png"].includes(file.type);
   if (!isImage) {
-    alert("Выберите изображение!");
+    message.error("Выберите изображение!");
+    return false;
   }
-  return isImage;
+
+  // Проверка размера файла (максимум 10 МБ)
+  const isLt10M = file.size / 1024 / 1024 < 10;
+  if (!isLt10M) {
+    message.error("Максимальный размер изображения 10 МБ!");
+    return false;
+  }
+
+  return true;
 };
 
-// Обработчик изменений в fileList
-const chan = (file) => {
-  file.file.status = "done";
-  console.log(file);
+// Функция-заглушка для отключения автоматической загрузки
+const dummyRequest = ({ onSuccess }) => {
+  setTimeout(() => {
+    onSuccess("ok");
+  }, 0);
 };
 </script>
 
