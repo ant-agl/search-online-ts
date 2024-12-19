@@ -1,1 +1,1 @@
-export { InputField, PasswordInput } from "./Input";
+export * from "./Input";

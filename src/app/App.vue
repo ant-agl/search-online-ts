@@ -1,20 +1,15 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, ref } from "vue";
 import { useRoute } from "vue-router";
+import ruRU from "ant-design-vue/es/locale/ru_RU";
+import "dayjs/locale/ru";
 
 const route = useRoute();
 const theme = ref({
   token: {
     colorPrimary: "#5D169C", // Основной цвет темы
+    colorPrimaryHover: "#B77EE9",
   },
-
-  // components: {
-  //   Input: {
-  //     borderRadius: "20px",
-  //     paddingBlock: "10px",
-  //     height: "42px",
-  //   },
-  // },
 });
 
 const layouts = {
@@ -29,7 +24,7 @@ const layout = computed(() => {
 </script>
 
 <template>
-  <a-config-provider :theme="theme">
+  <a-config-provider :theme="theme" :locale="ruRU">
     <a-app>
       <component :is="layout">
         <router-view v-slot="{ Component }">

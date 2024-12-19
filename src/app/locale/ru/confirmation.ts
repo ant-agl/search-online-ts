@@ -1,11 +1,25 @@
 export const TextsConfirmation = {
-  sureYouWantToSkipProduct:
-    "Вы уверены, что хотите пропустить добавление товара/услуги?",
-  sureYouWantToSkipRequest:
-    "Вы уверены, что хотите пропустить добавление заявки?",
-  superFirstServiceAdded:
-    "Супер! Вы добавили свою первую услугу. Скоро появится в каталоге",
+  soonInCatalog: "Скоро появится в каталоге",
   goToProfile: "Перейти в профиль",
   addMore: "Добавить ещё",
-  superFirstProductAdded: "Супер! Вы добавили свой первый товар",
+};
+
+export const getTextsConfirmation = (
+  userType: "sell" | "user",
+  productType: "item" | "service"
+) => {
+  const isItem = productType === "item";
+  const isSell = userType === "sell";
+
+  const separationVar1 = isItem ? "товара" : "услуги";
+  const separationVar2 = isItem ? "свой первый товар" : "свою первую услугу";
+
+  return {
+    skipModal: isSell
+      ? `Вы уверены, что хотите пропустить добавление ${separationVar1}?`
+      : "Вы уверены, что хотите пропустить добавление заявки?",
+    successModal: isSell
+      ? `Супер! Вы добавили ${separationVar2}.`
+      : "Супер! Вы оставили свою первую заявку.",
+  };
 };

@@ -65,6 +65,7 @@
   padding: 36px 76px;
   border-radius: 20px;
   background-color: rgb(255, 255, 255, 0.9);
+  box-shadow: 0px 0px 10px rgb(0, 0, 0, 10%);
   position: relative;
 
   .bg-ellipses-modal__item {

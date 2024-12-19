@@ -8,11 +8,15 @@ import api from "@/app/api/apiConfig";
 import * as types from "../types";
 import * as authApi from "../api/authApi";
 import * as profileApi from "../api/profileApi";
+import * as generalApi from "@/shared/api";
+import { reactive } from "vue";
+import { ProductFormState } from "@/features/Profile/Forms/ProductForm/model";
+// import { computed, reactive } from "vue";
 
 // interface State {
 //   isAuth: boolean;
 //   userData: UserData;
-//   userOrganization: UserOrganization;
+//   userOrganization: CompanyData;
 // }
 
 // const initialState: State = {
@@ -42,13 +46,12 @@ import * as profileApi from "../api/profileApi";
 // };
 
 export const useUserStore = defineStore("user", () => {
-  // Состояние
   // const state = reactive(initialState);
 
-  // Геттеры
+  // // Геттеры
   // const getUserOrganization = computed(() => state.userOrganization);
 
-  // Actions
+  // // Actions
   // const updateUserData = (payload: Partial<UserData>) => {
   //   state.userData = { ...state.userData, ...payload };
   // };
@@ -143,16 +146,7 @@ export const useUserStore = defineStore("user", () => {
     }
   };
 
-  const getCities = async () => {
-    try {
-      const response = await api.get("/common/cities");
-      console.log("get city", response);
-      return response;
-    } catch (error) {
-      console.log("get city error", error);
-      return Promise.reject(error);
-    }
-  };
+  const getCities = async () => generalApi.getCities();
 
   // Возвращаем состояние, геттеры и экшены
   return {

@@ -1,21 +1,28 @@
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const selectAccount = (type: "user" | "sell") => {
+  router.push({
+    name: "profile-filling",
+    query: { accountType: type },
+  });
+};
+</script>
+
 <template>
   <a-flex vertical>
     <div class="title">Я хочу...</div>
     <div class="sell_buy">
-      <RouterLink to="/profile-filling">
-        <div class="buy">
-          <img src="@/assets/img/choose/buy.png" alt="" />
-          <div class="title text">Купить</div>
-        </div>
-      </RouterLink>
-      <div class="sell">
-        <img src="@/assets/img/choose/sell.png" alt="" />
+      <div class="buy" @click="selectAccount('user')">
+        <img src="@/assets/img/UserType.webp" alt="" />
+        <div class="title text">Купить</div>
+      </div>
+      <div class="sell" @click="selectAccount('sell')">
+        <img src="@/assets/img/SellType.webp" alt="" />
         <div class="title text">Продать</div>
       </div>
-      <!-- <RouterLink
-        :to="{ name: 'AfterRegistration', params: { param: 'sell' } }"
-      >
-    </RouterLink> -->
     </div>
   </a-flex>
 </template>
@@ -34,6 +41,11 @@
     padding: 20px 30px;
     border-radius: 20px;
     transition: box-shadow 0.3s ease-in-out;
+
+    & img {
+      width: 250px;
+      height: 250px;
+    }
   }
 
   .buy:hover,

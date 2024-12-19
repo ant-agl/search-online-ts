@@ -66,11 +66,20 @@ const routes: Array<RouteRecordRaw> = [
     name: "profile-filling",
     meta: {
       titleKey: "profile-filling",
-      layout: "main",
       noauth: true,
       props: true,
     },
     component: () => import("@/pages/Profile/ProfileFillingPage"),
+  },
+  {
+    path: "/product-filling",
+    name: "product-filling",
+    meta: {
+      titleKey: "product-filling",
+      noauth: true,
+      props: true,
+    },
+    component: () => import("@/pages/Profile/ProductFillingPage"),
   },
   // {
   //   path: "/profile",

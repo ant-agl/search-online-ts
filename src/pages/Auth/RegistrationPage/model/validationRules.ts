@@ -32,7 +32,7 @@ export const rules: Record<string, Rule[]> = {
   surname: [
     {
       required: true,
-      message: GlobalTexts.validation.surnameRequired,
+      message: GlobalTexts.validation.lastNameRequired,
     },
     {
       min: 2,
